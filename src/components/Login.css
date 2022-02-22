@@ -1,0 +1,20 @@
+.loginMessage {
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+
+form {
+    width: 30em;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+p {
+    height: 2em;
+}
+
+.col-sm-3 {
+    margin-top: auto;
+    margin-bottom: auto;
+}

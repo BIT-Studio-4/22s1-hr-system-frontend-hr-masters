@@ -1,0 +1,15 @@
+.resetButton {
+    color: white;
+    background-color: black;  
+    margin-bottom: 1rem;
+}
+
+.saveButton {
+    color: black;
+    background-color: white;
+}
+
+.cancelButton {
+    color: white;
+    background-color: black;    
+}

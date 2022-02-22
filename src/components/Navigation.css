@@ -1,0 +1,10 @@
+.parent{
+    display: flex;
+    flex-direction: row;
+    justify-content:right;
+    width: 95%;
+}
+
+.NavbarBrand{
+    margin-left: 2em;
+}

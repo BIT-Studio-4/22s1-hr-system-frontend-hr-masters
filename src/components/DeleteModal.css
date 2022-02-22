@@ -1,0 +1,9 @@
+.yesButton {
+    color: black;
+    background-color: white;
+}
+
+.noButton {
+    color: white;
+    background-color: black;    
+}
