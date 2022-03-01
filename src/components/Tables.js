@@ -3,6 +3,7 @@ import { Button, Table } from "reactstrap";
 
 import NotesModal from "./NotesModal";
 import FilesModal from "./FilesModal"
+import PerformancePlanModal from "./PerformancePlanModal"
 
 const Tables = (props) => {
 const tableHeader = ["first_name", "last_name", "username", "email"];
@@ -106,7 +107,8 @@ const tableHeader = ["first_name", "last_name", "username", "email"];
           <td className="title" key="notes_header">Notes</td>
           <td className="title" key="file_header">Files</td>
           <td className="title" key="update_header">Update</td>
-          <td className="title" key="delete_header">Delete</td>
+            <td className="title" key="delete_header">Delete</td>
+            <td className="title" key="performance_plan">Performance Plan</td>
         </tr>
       </thead>
       <tbody>
@@ -129,6 +131,8 @@ const tableHeader = ["first_name", "last_name", "username", "email"];
                 id={data.id} />
               {updateButton(data)}
               {deleteButton(data)}
+              <PerformancePlanModal
+              id={data.id} />
             </tr>
           );
         })}
