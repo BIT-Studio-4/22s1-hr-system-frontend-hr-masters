@@ -11,9 +11,9 @@ import {
   ModalFooter,
 } from "reactstrap";
 
-import Humanize from "./Humanize";
-import Api from "./Api";
-import "./css/UpdateModal.css";
+import Humanize from "../Humanize";
+import Api from "../Api";
+import "../css/UpdateModal.css";
 
 const FormModal = (props) => {
   const [error, setError] = useState({});

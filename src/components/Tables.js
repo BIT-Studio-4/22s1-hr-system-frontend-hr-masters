@@ -1,9 +1,9 @@
 import React from "react";
 import { Button, Table } from "reactstrap";
 
-import NotesModal from "./NotesModal";
-import FilesModal from "./FilesModal"
-import PerformancePlanModal from "./PerformancePlanModal"
+import NotesModal from "./Modal/NotesModal";
+import FilesModal from "./Modal/FilesModal"
+import PerformancePlanModal from "./Modal/PerformancePlanModal"
 
 const Tables = (props) => {
 const tableHeader = ["first_name", "last_name", "username", "email"];

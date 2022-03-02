@@ -1,7 +1,7 @@
 import { React, useState } from 'react'
 import { Modal, Form, Button, ModalHeader, Table } from 'reactstrap'
 
-import Api from "./Api";
+import Api from "../Api";
 
 const FilesModal = (props) => {
 

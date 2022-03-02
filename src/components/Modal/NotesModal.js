@@ -1,9 +1,9 @@
 import  { React, useState } from 'react'
 import { Modal, Button, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 
-import Api from "./Api";
+import Api from "../Api";
 
-const PerformancePlanModal = (props) => {
+const NotesModal = (props) => {
     const [isOpen, setIsOpen] = useState(false)
     const toggle = () => setIsOpen(!isOpen)
     const [data, setData] = useState()
@@ -16,8 +16,8 @@ const PerformancePlanModal = (props) => {
     </td>
 
     const get_data = () => {
-        let url = 'performancePlan'
-        Api.postData(url + '?filter[employeeID]=' + props.id)
+        let url = 'notes'
+        Api.getData(url + '?filter[employeeID]=' + props.id)
         .then((response) => {
             setFetchTrigger(false);
             setData(response.data);
@@ -33,7 +33,9 @@ const PerformancePlanModal = (props) => {
             data.map((listValue, index) => {
                 return (
                     <ModalBody>
-                    <p><b>No. {index + 1}: </b></p>
+                    <p><b>Notes {index + 1}: </b></p>
+                    <p>{listValue.notesTitle}</p>
+                    <p>{listValue.notesDescription}</p>
                     <br/>
                     </ModalBody>
                 )
@@ -46,7 +48,7 @@ const PerformancePlanModal = (props) => {
         {button}
         <Modal isOpen={isOpen} toggle={toggle}>
             <ModalHeader>
-            Performance Plan
+                Notes
             </ModalHeader>
             
                 {isOpen && fetchTrigger ? (
@@ -65,4 +67,4 @@ const PerformancePlanModal = (props) => {
     )
 }
 
-export default PerformancePlanModal;
+export default NotesModal;

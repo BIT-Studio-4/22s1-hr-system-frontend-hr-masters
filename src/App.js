@@ -4,8 +4,8 @@ import { Route, BrowserRouter as Router } from "react-router-dom";
 
 import Api from "./components/Api";
 import Tables from "./components/Tables";
-import DeleteModal from "./components/DeleteModal";
-import UpdateModal from "./components/UpdateModal";
+import DeleteModal from "./components/Modal/DeleteModal";
+import UpdateModal from "./components/Modal/UpdateModal";
 import Navigation from "./components/Navigation";
 import Login from "./components/Login";
 
