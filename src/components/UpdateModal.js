@@ -13,7 +13,7 @@ import {
 
 import Humanize from "./Humanize";
 import Api from "./Api";
-import "./UpdateModal.css";
+import "./css/UpdateModal.css";
 
 const FormModal = (props) => {
   const [error, setError] = useState({});

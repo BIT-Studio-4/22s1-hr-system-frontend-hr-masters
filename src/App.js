@@ -41,7 +41,7 @@ const App = () => {
       sessionStorage.clear();
     }
 
-    if (localStorage.auth_name != null && sessionStorage.auth_name == null) {
+    if (localStorage.auth_name != null && sessionStorage.auth_name == null) {// Is that close brower it will still store the data?
       sessionStorage.auth_name = localStorage.auth_name;
       sessionStorage.auth_token = localStorage.auth_token;
     }
@@ -54,7 +54,7 @@ const App = () => {
     }
     else {
       setLoggedIn(false);
-      if (window.location.pathname.substr(1) !== 'login') {
+      if (window.location.pathname.substr(1) !== 'login') {// unclear
         window.location.href = '/login';
       }
     }
@@ -69,7 +69,7 @@ const App = () => {
 
   //Fetches the data
   function fetchData() {
-    let url = location.toLowerCase();
+    let url = location.toLowerCase();//is url "employee"?
     Api.getData(url)
       .then((response) => {
         setFetchTrigger(false);
@@ -126,7 +126,7 @@ const App = () => {
   return (
     <div className="App">
       <Navigation
-        setLoggedIn={(status) => setLoggedIn(status)}
+        setLoggedIn={(status) => setLoggedIn(status)}//where does the status come from?
         loggedIn={loggedIn}
       />
       {loggedIn ? (

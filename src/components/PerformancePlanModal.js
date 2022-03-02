@@ -16,8 +16,8 @@ const PerformancePlanModal = (props) => {
     </td>
 
     const get_data = () => {
-        let url = 'notes'
-        Api.getData(url + '?filter[employeeID]=' + props.id)
+        let url = 'performancePlan'
+        Api.postData(url + '?filter[employeeID]=' + props.id)
         .then((response) => {
             setFetchTrigger(false);
             setData(response.data);
