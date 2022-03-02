@@ -10,7 +10,7 @@ const PerformancePlanModal = (props) => {
     const [fetchTrigger, setFetchTrigger] = useState(true)
 
     let button = <td><Button
-        outline color='dark'
+        outline color='dark'//This icon of button below may need to be changed
         onClick={toggle}><img src="https://cdn.discordapp.com/attachments/866914474140237857/907056265618944020/icons8-note-24.png"/>
         </Button>
     </td>
@@ -52,11 +52,9 @@ const PerformancePlanModal = (props) => {
                 {isOpen && fetchTrigger ? (
                 get_data()
                 ) : null}
-
                 {data ? (
                 notes()
-                ) : null}
-            
+                ) : null}            
             <ModalFooter>
                 <Button color="dark" onClick={toggle}>Cancel</Button>
             </ModalFooter>
