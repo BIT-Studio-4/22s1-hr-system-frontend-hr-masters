@@ -104,11 +104,12 @@ const tableHeader = ["first_name", "last_name", "username", "email"];
           {tableHeader.map((header) => {
             return <td key={header}>{humanize(header)}</td>;
           })}
+          <td className="title" key="performance_plan">Performance Plan</td>
           <td className="title" key="notes_header">Notes</td>
           <td className="title" key="file_header">Files</td>
           <td className="title" key="update_header">Update</td>
-            <td className="title" key="delete_header">Delete</td>
-            <td className="title" key="performance_plan">Performance Plan</td>
+          <td className="title" key="delete_header">Delete</td>
+
         </tr>
       </thead>
       <tbody>
@@ -125,14 +126,15 @@ const tableHeader = ["first_name", "last_name", "username", "email"];
           return (
             <tr key={data[tableHeader[0]] + data.id}>
               {tableValues}
+              <PerformancePlanModal
+              id={data.id} />
               <NotesModal
               id={data.id} />
               <FilesModal 
                 id={data.id} />
               {updateButton(data)}
               {deleteButton(data)}
-              <PerformancePlanModal
-              id={data.id} />
+
             </tr>
           );
         })}
