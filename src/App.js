@@ -151,6 +151,7 @@ const App = () => {
     setShowForm(formStatus);
   }
 
+  //test url ,when we finish backend the url should like this or similar
   function handlePerformanceForm(id, performanceStatus) {
     setLocation(`performance?employee_id=${id}`);
     setShowPerformance(performanceStatus);

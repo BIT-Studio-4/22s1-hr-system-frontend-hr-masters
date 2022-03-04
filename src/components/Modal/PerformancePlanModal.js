@@ -18,6 +18,7 @@ const PerformancePlanModal = (props) => {
     const [newSelectedData, setNewSelectedData] = useState({});
     const planHeaders = props.planHeaders;
     let selectedDatas = props.selectedDatas;
+    let buttonLable = '';
 
   //Clears the form
   function clearForm() {
@@ -56,6 +57,9 @@ const PerformancePlanModal = (props) => {
     
       //Creates the form layout
   const form = () => {
+    if (selectedDatas === {}) {
+      buttonLable = "create";
+    }
       if (planHeaders !== undefined) {
           let labels = planHeaders.map((header) => {
               return (
@@ -126,6 +130,34 @@ const PerformancePlanModal = (props) => {
       });
   }
 
+  function postData() {
+    let sendData = {};
+
+    for (const [key, value] of Object.entries(newSelectedData)) {
+      if (value !== "") {
+        sendData[key] = value;
+      }
+    }
+    Api.postData(props.location.toLowerCase(), sendData)
+      .then((response) => {
+        console.log(response);
+        props.setMainMessage(`Update: ${response.status} ${response.statusText}`);
+        closeForm();
+        props.setFetchTrigger(true);
+      })
+      .catch((error) => {
+        console.log(error.response.data.errors);
+        let copyError = {};
+        for(const [key, val] of Object.entries(error.response.data.errors)) {
+          copyError[key] = val.toString()
+        }
+        //error.response.data.error.toString();
+
+        copyError.main = error.response.data.message.toString();
+        setError(copyError);
+      });
+  }
+
   return (
     <Modal isOpen={props.showPerformance} toggle={() => closeForm()}>
         <ModalHeader>"Performance Plan"</ModalHeader>
@@ -140,9 +172,15 @@ const PerformancePlanModal = (props) => {
         </p>
       </ModalBody>
       <ModalFooter>  
+        {buttonLable === 'create' ?
+          <Button className="saveButton" id="save_button" onClick={() => postData()}>
+            Save Changes
+          </Button>
+          :
           <Button className="saveButton" id="save_button" onClick={() => prepareData()}>
             Save Changes
           </Button>
+        }
         <Button className="cancelButton" id="cancel_button" onClick={() => closeForm()}>
           Cancel
         </Button>
