@@ -12,6 +12,7 @@ import Login from "./components/Login";
 
 import './App.css';
 import { Button } from "reactstrap";
+import PerformancePlanModal from "./components/Modal/PerformancePlanModal";
 
 const App = () => {
   const [responseData, setResponseData] = useState(""); //stores the data of the api request
@@ -23,6 +24,7 @@ const App = () => {
   const [showDelete, setShowDelete] = useState(false); //toggle to show delete modal
   const [showForm, setShowForm] = useState(false); // toggle to show update form
   const [loggedIn, setLoggedIn] = useState(false); // status of if the user is logged in
+  const [showPerformance, setShowPerformance] = useState(false);//toggle to show performance modal 
   const tableHeaders = {
     employee: [
       "first_name",
@@ -31,6 +33,32 @@ const App = () => {
       "email",
     ]
   }
+  // const tableHeaders = {
+  //   employee: [
+  //     "first_name",
+  //     "last_name",
+  //     "username",
+  //     "email",
+  //   ],
+  //   file:[
+  //     "employee_id",
+  //     "fileLink"
+  //   ]
+  // }
+  //set performace plan fields
+  const planHeaders = {
+    performancePlan: [
+      //'employee_id',
+      'initial_goal', 
+      'specific', 
+      'measureable', 
+      'achievable', 
+      'relevant', 
+      'time_bound', 
+      'goal_statement'
+    ]
+  }
+
 
   // Checks if the user is loggedIn based on the localStorage
   useEffect(() => {
@@ -69,7 +97,7 @@ const App = () => {
 
   //Fetches the data
   function fetchData() {
-    let url = location.toLowerCase();//is url "employee"?
+    let url = location.toLowerCase();
     Api.getData(url)
       .then((response) => {
         setFetchTrigger(false);
@@ -123,6 +151,17 @@ const App = () => {
     setShowForm(formStatus);
   }
 
+  function handlePerformanceForm(id, performanceStatus) {
+    setLocation(`performance?employee_id=${id}`);
+    setShowPerformance(performanceStatus);
+  }
+  // function handlePerformanceTable(id, tableStatus) {
+  //   setLocation("file");
+  //   setPerformanceStatus(tableStatus);   
+  //   fetchData();
+  // }
+
+
   return (
     <div className="App">
       <Navigation
@@ -142,6 +181,8 @@ const App = () => {
                     data={responseData.data}
                     update={(data, updateStatus) => handleShowForm("update", data, updateStatus)}
                     delete={(data, deleteStatus) => handleDeleteStatus(data, deleteStatus)}
+                    //pass props to performancePlan
+                    performancePlan={(id, performanceStatus) => handlePerformanceForm(id, performanceStatus)}
                   />
                 </section>
                   <Button className="createButton" id="create_button" onClick={() => handleShowForm("create", selectedData, true)}>
@@ -163,6 +204,19 @@ const App = () => {
           </Route>
         </Router>
       )}
+      {showPerformance ? (
+        <PerformancePlanModal
+          selectedDatas={selectedData}
+          showPerformance={showPerformance}
+          location={location}
+          planHeaders={planHeaders}
+          setFetchTrigger={setFetchTrigger}
+          setMainMessage={setMainMessage}
+          handlePerformanceForm={(formStatus) =>
+            handlePerformanceForm("", formStatus)
+          }
+        />
+      ) : null}
       {showForm ? (
         <UpdateModal
           selectedDatas={selectedData}
