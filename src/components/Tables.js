@@ -6,9 +6,9 @@ import FilesModal from "./Modal/FilesModal"
 import PerformancePlanModal from "./Modal/PerformancePlanModal"
 
 const Tables = (props) => {
-const tableHeader = ["first_name", "last_name", "username", "email"];
-
-
+  const tableHeader = ["first_name", "last_name", "username", "email"];
+  //console.log("location"+props.tableHeaders);
+  //let tableHeader = props.tableHeaders[props.location] //`performance/?employee_id=${id}`
   //converts the string to be read by humans
   function humanize(str) {
     let result = str.replace(/(^\w)|(_\w)/g, (match) => match.toUpperCase());
@@ -41,6 +41,7 @@ const tableHeader = ["first_name", "last_name", "username", "email"];
       data[tableHeader[0]] +
       "_" +
       data[tableHeader[1]];
+      //Cameron_Ashworth
     return (
       <td>
         <Button
@@ -75,6 +76,22 @@ const tableHeader = ["first_name", "last_name", "username", "email"];
     );
   };
 
+    //create the update button
+    const performanceButton = (data) => {
+      return (
+        <td>
+          <Button
+            key={"performance" + data.id}
+            className="performanceButton"
+            id={"performance_" + data.id}
+            onClick={() => props.performancePlan(data.id, true)} 
+          >
+              <img src="https://cdn.discordapp.com/attachments/866914474140237857/907056265618944020/icons8-note-24.png"/>
+          </Button>
+        </td>
+      );
+  };
+  
   //create the notes button
   // const notesButton = (data) => {
   //   let id_name =
@@ -126,8 +143,9 @@ const tableHeader = ["first_name", "last_name", "username", "email"];
           return (
             <tr key={data[tableHeader[0]] + data.id}>
               {tableValues}
-              <PerformancePlanModal
-              id={data.id} />
+              {/* <PerformancePlanModal
+              id={data.id} /> */}
+              {performanceButton(data)}
               <NotesModal
               id={data.id} />
               <FilesModal 
