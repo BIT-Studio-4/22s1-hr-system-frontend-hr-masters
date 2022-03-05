@@ -50,7 +50,7 @@ const Tables = (props) => {
           id={"update_" + id_name}
           onClick={() => props.update(data, true)} 
         >
-            <img src="https://cdn.discordapp.com/attachments/866914474140237857/907053502851858452/icons8-update-24.png"/>
+          <img src="https://cdn.discordapp.com/attachments/866914474140237857/907053502851858452/icons8-update-24.png" />
         </Button>
       </td>
     );

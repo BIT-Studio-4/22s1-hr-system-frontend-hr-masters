@@ -151,9 +151,9 @@ const App = () => {
     setShowForm(formStatus);
   }
 
-  //test url ,when we finish backend the url should like this or similar
+  //location could not be reset yet 
   function handlePerformanceForm(id, performanceStatus) {
-    setLocation(`performance?employee_id=${id}`);
+    //setLocation(`performance?employee_id=${id}`);
     setShowPerformance(performanceStatus);
   }
   // function handlePerformanceTable(id, tableStatus) {
@@ -210,7 +210,7 @@ const App = () => {
           selectedDatas={selectedData}
           showPerformance={showPerformance}
           location={location}
-          planHeaders={planHeaders}
+          planHeaders={planHeaders["performancePlan"]}
           setFetchTrigger={setFetchTrigger}
           setMainMessage={setMainMessage}
           handlePerformanceForm={(formStatus) =>

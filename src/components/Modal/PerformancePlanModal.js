@@ -7,18 +7,28 @@ import {
     Modal,
     ModalHeader,
     ModalBody,
-    ModalFooter,
+  ModalFooter,
+    FormText
 } from "reactstrap";
   
 import Humanize from "../Humanize";
 import Api from "../Api";
 
 const PerformancePlanModal = (props) => {
-    const [error, setError] = useState({});
-    const [newSelectedData, setNewSelectedData] = useState({});
-    const planHeaders = props.planHeaders;
-    let selectedDatas = props.selectedDatas;
-    let buttonLable = '';
+  const [error, setError] = useState({});
+  const [newSelectedData, setNewSelectedData] = useState({});
+  const planHeaders = props.planHeaders;
+  let selectedDatas = props.selectedDatas;
+  let buttonLable = '';
+  const description = {
+    "initial_goal": "The first field should be a changeable initial goal.",
+    "specific": "What do you want to accomplish? Who can help you get there? When do you want this? Why is this your goal?",
+    "measureable": "How can you measure progress and know if you've successfully met your goal?",
+    "achievable": "Do you have the required skills to achieve this goal? If not can you obtain them? Is the amount of effort required on par with what this goal will achieve?",
+    "relevant": "Why am I setting this goal now? Is it aligned with overall objectives?",
+    "time_bound": "What the deadline and is it realistic?",
+    "goal_statement": "Based on what their answers have revealed in the answers above."  
+  }
 
   //Clears the form
   function clearForm() {
@@ -57,14 +67,18 @@ const PerformancePlanModal = (props) => {
     
       //Creates the form layout
   const form = () => {
-    if (selectedDatas === {}) {
+    if (selectedDatas === {}) {//deos it correct?
       buttonLable = "create";
     }
       if (planHeaders !== undefined) {
           let labels = planHeaders.map((header) => {
               return (
                   <Label key={header}>
-                      {Humanize(header)}
+                  {Humanize(header)}
+                  <br/>
+                  <FormText>
+                    {description[header]}
+                  </FormText>
                       <Input
                           name={header}
                           type="text"
@@ -86,7 +100,7 @@ const PerformancePlanModal = (props) => {
     
   //close the form modal
   function closeForm() {
-    props.handleShowForm(false);
+    props.handlePerformanceForm(false);
     setError({});
   }
 
