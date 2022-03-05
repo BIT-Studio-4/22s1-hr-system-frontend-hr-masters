@@ -46,18 +46,18 @@ const App = () => {
   //   ]
   // }
   //set performace plan fields
-  const planHeaders = {
-    performancePlan: [
-      //'employee_id',
-      'initial_goal', 
-      'specific', 
-      'measureable', 
-      'achievable', 
-      'relevant', 
-      'time_bound', 
-      'goal_statement'
-    ]
-  }
+  // const planHeaders = {
+  //   performancePlan: [
+  //     //'employee_id',
+  //     'initial_goal', 
+  //     'specific', 
+  //     'measureable', 
+  //     'achievable', 
+  //     'relevant', 
+  //     'time_bound', 
+  //     'goal_statement'
+  //   ]
+  // }
 
 
   // Checks if the user is loggedIn based on the localStorage
@@ -166,7 +166,7 @@ const App = () => {
   return (
     <div className="App">
       <Navigation
-        setLoggedIn={(status) => setLoggedIn(status)}//where does the status come from?
+        setLoggedIn={(status) => setLoggedIn(status)}
         loggedIn={loggedIn}
       />
       {loggedIn ? (
@@ -210,7 +210,7 @@ const App = () => {
           selectedDatas={selectedData}
           showPerformance={showPerformance}
           location={location}
-          planHeaders={planHeaders["performancePlan"]}
+         // planHeaders={planHeaders["performancePlan"]}
           setFetchTrigger={setFetchTrigger}
           setMainMessage={setMainMessage}
           handlePerformanceForm={(formStatus) =>

@@ -17,7 +17,7 @@ import Api from "../Api";
 const PerformancePlanModal = (props) => {
   const [error, setError] = useState({});
   const [newSelectedData, setNewSelectedData] = useState({});
-  const planHeaders = props.planHeaders;
+  // const planHeaders = props.planHeaders;
   let selectedDatas = props.selectedDatas;
   let buttonLable = '';
   const description = {
@@ -67,33 +67,34 @@ const PerformancePlanModal = (props) => {
     
       //Creates the form layout
   const form = () => {
-    if (selectedDatas === {}) {//deos it correct?
+    if (selectedDatas === {}) {//to check if the data empty. Does it correct? I'm not sure the syntax.
       buttonLable = "create";
     }
-      if (planHeaders !== undefined) {
-          let labels = planHeaders.map((header) => {
-              return (
-                  <Label key={header}>
-                  {Humanize(header)}
+    if (description !== undefined) {//will replace it with actual data header
+      let labels = [];
+          for(const [key, val] of Object.entries(description)) {
+              labels.push (
+                  <Label key={key}>
+                  {Humanize(key)}
                   <br/>
                   <FormText>
-                    {description[header]}
+                    {val}
                   </FormText>
                       <Input
-                          name={header}
+                          name={key}
                           type="text"
-                          id={header + "_textbox"}
-                          value={newSelectedData[header] || ""}
-                          placeholder={selectedDatas[header]}
+                          id={key + "_textbox"}
+                          value={newSelectedData[key] || ""}
+                          placeholder={selectedDatas[key]}
                           onChange={(e) => handleInputChange(e)}
                           validations="required"
                       />
-                      <p id={"error_" + header} style={{ color: "red" }}>
-                          {error[header]}
+                      <p id={"error_" + key} style={{ color: "red" }}>
+                          {error[key]}
                       </p>
                   </Label>
               );
-          });
+          };
           return <Form>{labels}</Form>;
       }
   };
