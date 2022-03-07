@@ -25,8 +25,8 @@ const App = () => {
   const [showForm, setShowForm] = useState(false); // toggle to show update form
   const [loggedIn, setLoggedIn] = useState(false); // status of if the user is logged in
   const [showPerformance, setShowPerformance] = useState(false);//toggle to show performance modal 
-  const [performaceData, setPerformanceData] = useState("");//stores the data of performancePlan
-  const [emplooyeNamePerformance, SetEmplooyeNamePerformance] = useState("");//stores the name or employee of performancePlan
+  const [performanceData, setPerformanceData] = useState("");//stores the data of performancePlan
+  const [employeeNamePerformance, SetEmployeeNamePerformance] = useState("");//stores the name or employee of performancePlan
   const tableHeaders = {
     employee: [
       "first_name",
@@ -124,7 +124,7 @@ const App = () => {
       setLocation(`performance?employee_id=${id}`); 
       setFetchTrigger(true);
       fetchData(); 
-      SetEmplooyeNamePerformance(name)
+      SetEmployeeNamePerformance(name)
     }
   }
 
@@ -172,10 +172,10 @@ const App = () => {
       )}
       {showPerformance ? (
         <PerformancePlanModal
-          selectedDatas={performaceData}
+          selectedDatas={performanceData}
           showPerformance={showPerformance}
           setMainMessage={setMainMessage}
-          emplooyeNamePerformance={emplooyeNamePerformance}
+          employeeNamePerformance={employeeNamePerformance}
           handlePerformanceForm={(performanceStatus) =>
             handlePerformanceForm(0,performanceStatus)
           }

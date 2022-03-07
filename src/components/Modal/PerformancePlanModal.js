@@ -18,7 +18,7 @@ const PerformancePlanModal = (props) => {
   const [error, setError] = useState({});
   const [newSelectedData, setNewSelectedData] = useState({});
   let selectedDatas = props.selectedDatas.data;
-  let name = props.emplooyeNamePerformance;
+  let employeeName = props.employeeNamePerformance;
   const description = {
     "initial_goal": "The first field should be a changeable initial goal.",
     "specific": "What do you want to accomplish? Who can help you get there? When do you want this? Why is this your goal?",
@@ -142,7 +142,7 @@ const PerformancePlanModal = (props) => {
 
   return (
     <Modal isOpen={props.showPerformance} toggle={() => closeForm()}>
-      <ModalHeader>{"Performance Plan  ----" + Humanize(name)}</ModalHeader>
+      <ModalHeader>{"Performance Plan  ----" + Humanize(employeeName)}</ModalHeader>
       <ModalBody>
         <Button outline className="resetButton" onClick={() => clearForm()}>
           Reset form
