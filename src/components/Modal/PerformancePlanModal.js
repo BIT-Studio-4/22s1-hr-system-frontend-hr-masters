@@ -95,8 +95,8 @@ const PerformancePlanModal = (props) => {
   };
     
   //close the form modal
-  function closeForm() {
-    props.handlePerformanceForm(false);
+  function closeForm() { 
+    props.setShowPerformance(false);
     setError({});
   }
 

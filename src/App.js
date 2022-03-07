@@ -62,12 +62,13 @@ const App = () => {
         window.location.href = '/login';
       }
     }
+
   });
 
   //Fetches data when triggered
   useEffect(() => {
     if (fetchTrigger) {
-      fetchData();   
+      fetchData();  
     }
   });
 
@@ -84,6 +85,7 @@ const App = () => {
         else { 
           setResponseData(response);
         }    
+        console.log(response)
       })
       .catch((error) => {
         console.log(error);
@@ -123,7 +125,6 @@ const App = () => {
     if (performanceStatus) {
       setLocation(`performance?employee_id=${id}`); 
       setFetchTrigger(true);
-      fetchData(); 
       SetEmployeeNamePerformance(name)
     }
   }
@@ -174,11 +175,9 @@ const App = () => {
         <PerformancePlanModal
           selectedDatas={performanceData}
           showPerformance={showPerformance}
+          setShowPerformance={setShowPerformance}
           setMainMessage={setMainMessage}
           employeeNamePerformance={employeeNamePerformance}
-          handlePerformanceForm={(performanceStatus) =>
-            handlePerformanceForm(0,performanceStatus)
-          }
         />
       ) : null}
       {showForm ? (
