@@ -17,9 +17,8 @@ import Api from "../Api";
 const PerformancePlanModal = (props) => {
   const [error, setError] = useState({});
   const [newSelectedData, setNewSelectedData] = useState({});
-  // const planHeaders = props.planHeaders;
-  let selectedDatas = props.selectedDatas;
-  let buttonLable = '';
+  let selectedDatas = props.selectedDatas.data;
+  let name = props.emplooyeNamePerformance;
   const description = {
     "initial_goal": "The first field should be a changeable initial goal.",
     "specific": "What do you want to accomplish? Who can help you get there? When do you want this? Why is this your goal?",
@@ -29,7 +28,6 @@ const PerformancePlanModal = (props) => {
     "time_bound": "What the deadline and is it realistic?",
     "goal_statement": "Based on what their answers have revealed in the answers above."  
   }
-
   //Clears the form
   function clearForm() {
     setNewSelectedData({});
@@ -67,16 +65,13 @@ const PerformancePlanModal = (props) => {
     
       //Creates the form layout
   const form = () => {
-    if (selectedDatas === {}) {//to check if the data empty. Does it correct? I'm not sure the syntax.
-      buttonLable = "create";
-    }
-    if (description !== undefined) {//will replace it with actual data header
+    if (selectedDatas !== undefined) {
       let labels = [];
-          for(const [key, val] of Object.entries(description)) {
+      for (const [key, val] of Object.entries(description)) {          
               labels.push (
-                  <Label key={key}>
+                <Label key={key}>
                   {Humanize(key)}
-                  <br/>
+                  <br />               
                   <FormText>
                     {val}
                   </FormText>
@@ -85,7 +80,7 @@ const PerformancePlanModal = (props) => {
                           type="text"
                           id={key + "_textbox"}
                           value={newSelectedData[key] || ""}
-                          placeholder={selectedDatas[key]}
+                          placeholder={selectedDatas[key]}                       
                           onChange={(e) => handleInputChange(e)}
                           validations="required"
                       />
@@ -127,16 +122,15 @@ const PerformancePlanModal = (props) => {
 
   //Send a put request to the API
   function put(id, sendData) {
-    //let url = props.location.toLowerCase();
     let url = "performance";
     url += "/" + id;
+    console.log(url)
 
     Api.putData(url, sendData)
       .then((response) => {
         console.log(response);
         props.setMainMessage(`Update: ${response.status} ${response.statusText}`);
         closeForm();
-        props.setFetchTrigger(true);
       })
       .catch((error) => {
         let copyError = {};
@@ -145,38 +139,10 @@ const PerformancePlanModal = (props) => {
       });
   }
 
-  function postData() {
-    let sendData = {};
-
-    for (const [key, value] of Object.entries(newSelectedData)) {
-      if (value !== "") {
-        sendData[key] = value;
-      }
-    }
-    Api.postData(props.location.toLowerCase(), sendData)
-      .then((response) => {
-        console.log(response);
-        props.setMainMessage(`Update: ${response.status} ${response.statusText}`);
-        closeForm();
-        props.setFetchTrigger(true);
-      })
-      .catch((error) => {
-        console.log(error.response.data.errors);
-        let copyError = {};
-        for(const [key, val] of Object.entries(error.response.data.errors)) {
-          copyError[key] = val.toString()
-        }
-        //error.response.data.error.toString();
-
-        copyError.main = error.response.data.message.toString();
-        setError(copyError);
-      });
-  }
 
   return (
     <Modal isOpen={props.showPerformance} toggle={() => closeForm()}>
-        <ModalHeader>"Performance Plan"</ModalHeader>
- 
+      <ModalHeader>{"Performance Plan  ----" + Humanize(name)}</ModalHeader>
       <ModalBody>
         <Button outline className="resetButton" onClick={() => clearForm()}>
           Reset form
@@ -187,15 +153,9 @@ const PerformancePlanModal = (props) => {
         </p>
       </ModalBody>
       <ModalFooter>  
-        {buttonLable === 'create' ?
-          <Button className="saveButton" id="save_button" onClick={() => postData()}>
-            Save Changes
-          </Button>
-          :
           <Button className="saveButton" id="save_button" onClick={() => prepareData()}>
             Save Changes
           </Button>
-        }
         <Button className="cancelButton" id="cancel_button" onClick={() => closeForm()}>
           Cancel
         </Button>

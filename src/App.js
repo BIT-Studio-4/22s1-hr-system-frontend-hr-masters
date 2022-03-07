@@ -25,6 +25,8 @@ const App = () => {
   const [showForm, setShowForm] = useState(false); // toggle to show update form
   const [loggedIn, setLoggedIn] = useState(false); // status of if the user is logged in
   const [showPerformance, setShowPerformance] = useState(false);//toggle to show performance modal 
+  const [performaceData, setPerformanceData] = useState("");//stores the data of performancePlan
+  const [emplooyeNamePerformance, SetEmplooyeNamePerformance] = useState("");//stores the name or employee of performancePlan
   const tableHeaders = {
     employee: [
       "first_name",
@@ -33,32 +35,6 @@ const App = () => {
       "email",
     ]
   }
-  // const tableHeaders = {
-  //   employee: [
-  //     "first_name",
-  //     "last_name",
-  //     "username",
-  //     "email",
-  //   ],
-  //   file:[
-  //     "employee_id",
-  //     "fileLink"
-  //   ]
-  // }
-  //set performace plan fields
-  // const planHeaders = {
-  //   performancePlan: [
-  //     //'employee_id',
-  //     'initial_goal', 
-  //     'specific', 
-  //     'measureable', 
-  //     'achievable', 
-  //     'relevant', 
-  //     'time_bound', 
-  //     'goal_statement'
-  //   ]
-  // }
-
 
   // Checks if the user is loggedIn based on the localStorage
   useEffect(() => {
@@ -91,7 +67,7 @@ const App = () => {
   //Fetches data when triggered
   useEffect(() => {
     if (fetchTrigger) {
-      fetchData();
+      fetchData();   
     }
   });
 
@@ -101,32 +77,23 @@ const App = () => {
     Api.getData(url)
       .then((response) => {
         setFetchTrigger(false);
-        setResponseData(response);
-        console.log(response);
+        if (showPerformance) {
+          setPerformanceData(response);
+          setLocation('employee');
+        }
+        else { 
+          setResponseData(response);
+        }    
       })
       .catch((error) => {
         console.log(error);
       });
   }
 
-  //Send a post request to the API
-  function post(sendData) {
-    let url = location.toLowerCase();
-
-    Api.postData(url, sendData)
-      .then((response) => {
-        console.log(response);
-        setMainMessage(`${response.statusText} new ${location}: ${sendData.first_name} ${sendData.last_name}`);
-        setShowForm(false);
-        fetchData();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
 
   //Handles the delete status
   function handleDeleteStatus(data, deleteStatus) {
+    setLocation("employee");
     setSelectedData(data);
     setShowDelete(deleteStatus);
   }
@@ -136,7 +103,6 @@ const App = () => {
     let url = location.toLowerCase() + "/" + id;
     Api.deleteData(url)
       .then((response) => {
-        console.log(response);
         //Need a better message from the api
         setMainMessage(`Delete "${selectedData.first_name} ${selectedData.last_name}": ${response.statusText}`);
         setShowDelete(false);
@@ -152,16 +118,15 @@ const App = () => {
   }
 
   //location could not be reset yet 
-  function handlePerformanceForm(id, performanceStatus) {
-    //setLocation(`performance?employee_id=${id}`);
+  function handlePerformanceForm(id, name, performanceStatus) {
     setShowPerformance(performanceStatus);
+    if (performanceStatus) {
+      setLocation(`performance?employee_id=${id}`); 
+      setFetchTrigger(true);
+      fetchData(); 
+      SetEmplooyeNamePerformance(name)
+    }
   }
-  // function handlePerformanceTable(id, tableStatus) {
-  //   setLocation("file");
-  //   setPerformanceStatus(tableStatus);   
-  //   fetchData();
-  // }
-
 
   return (
     <div className="App">
@@ -183,7 +148,7 @@ const App = () => {
                     update={(data, updateStatus) => handleShowForm("update", data, updateStatus)}
                     delete={(data, deleteStatus) => handleDeleteStatus(data, deleteStatus)}
                     //pass props to performancePlan
-                    performancePlan={(id, performanceStatus) => handlePerformanceForm(id, performanceStatus)}
+                    performancePlan={(id, name, performanceStatus) => handlePerformanceForm(id, name,performanceStatus)}
                   />
                 </section>
                   <Button className="createButton" id="create_button" onClick={() => handleShowForm("create", selectedData, true)}>
@@ -207,14 +172,12 @@ const App = () => {
       )}
       {showPerformance ? (
         <PerformancePlanModal
-          selectedDatas={selectedData}
+          selectedDatas={performaceData}
           showPerformance={showPerformance}
-          location={location}
-         // planHeaders={planHeaders["performancePlan"]}
-          setFetchTrigger={setFetchTrigger}
           setMainMessage={setMainMessage}
-          handlePerformanceForm={(formStatus) =>
-            handlePerformanceForm("", formStatus)
+          emplooyeNamePerformance={emplooyeNamePerformance}
+          handlePerformanceForm={(performanceStatus) =>
+            handlePerformanceForm(0,performanceStatus)
           }
         />
       ) : null}
