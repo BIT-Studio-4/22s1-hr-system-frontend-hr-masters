@@ -12,6 +12,7 @@ import Login from "./components/Login";
 
 import './App.css';
 import { Button } from "reactstrap";
+import PerformancePlanModal from "./components/Modal/PerformancePlanModal";
 
 const App = () => {
   const [responseData, setResponseData] = useState(""); //stores the data of the api request
@@ -23,6 +24,9 @@ const App = () => {
   const [showDelete, setShowDelete] = useState(false); //toggle to show delete modal
   const [showForm, setShowForm] = useState(false); // toggle to show update form
   const [loggedIn, setLoggedIn] = useState(false); // status of if the user is logged in
+  const [showPerformance, setShowPerformance] = useState(false);//toggle to show performance modal 
+  const [performanceData, setPerformanceData] = useState("");//stores the data of performancePlan
+  const [employeeNamePerformance, SetEmployeeNamePerformance] = useState("");//stores the name or employee of performancePlan
   const tableHeaders = {
     employee: [
       "first_name",
@@ -63,42 +67,33 @@ const App = () => {
   //Fetches data when triggered
   useEffect(() => {
     if (fetchTrigger) {
-      fetchData();
+      fetchData();   
     }
   });
 
   //Fetches the data
   function fetchData() {
-    let url = location.toLowerCase();//is url "employee"?
+    let url = location.toLowerCase();
     Api.getData(url)
       .then((response) => {
         setFetchTrigger(false);
-        setResponseData(response);
-        console.log(response);
+        if (showPerformance) {
+          setPerformanceData(response);
+          setLocation('employee');
+        }
+        else { 
+          setResponseData(response);
+        }    
       })
       .catch((error) => {
         console.log(error);
       });
   }
 
-  //Send a post request to the API
-  function post(sendData) {
-    let url = location.toLowerCase();
-
-    Api.postData(url, sendData)
-      .then((response) => {
-        console.log(response);
-        setMainMessage(`${response.statusText} new ${location}: ${sendData.first_name} ${sendData.last_name}`);
-        setShowForm(false);
-        fetchData();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
 
   //Handles the delete status
   function handleDeleteStatus(data, deleteStatus) {
+    setLocation("employee");
     setSelectedData(data);
     setShowDelete(deleteStatus);
   }
@@ -108,7 +103,6 @@ const App = () => {
     let url = location.toLowerCase() + "/" + id;
     Api.deleteData(url)
       .then((response) => {
-        console.log(response);
         //Need a better message from the api
         setMainMessage(`Delete "${selectedData.first_name} ${selectedData.last_name}": ${response.statusText}`);
         setShowDelete(false);
@@ -123,10 +117,21 @@ const App = () => {
     setShowForm(formStatus);
   }
 
+  //location could not be reset yet 
+  function handlePerformanceForm(id, name, performanceStatus) {
+    setShowPerformance(performanceStatus);
+    if (performanceStatus) {
+      setLocation(`performance?employee_id=${id}`); 
+      setFetchTrigger(true);
+      fetchData(); 
+      SetEmployeeNamePerformance(name)
+    }
+  }
+
   return (
     <div className="App">
       <Navigation
-        setLoggedIn={(status) => setLoggedIn(status)}//where does the status come from?
+        setLoggedIn={(status) => setLoggedIn(status)}
         loggedIn={loggedIn}
       />
       {loggedIn ? (
@@ -142,6 +147,8 @@ const App = () => {
                     data={responseData.data}
                     update={(data, updateStatus) => handleShowForm("update", data, updateStatus)}
                     delete={(data, deleteStatus) => handleDeleteStatus(data, deleteStatus)}
+                    //pass props to performancePlan
+                    performancePlan={(id, name, performanceStatus) => handlePerformanceForm(id, name,performanceStatus)}
                   />
                 </section>
                   <Button className="createButton" id="create_button" onClick={() => handleShowForm("create", selectedData, true)}>
@@ -163,6 +170,17 @@ const App = () => {
           </Route>
         </Router>
       )}
+      {showPerformance ? (
+        <PerformancePlanModal
+          selectedDatas={performanceData}
+          showPerformance={showPerformance}
+          setMainMessage={setMainMessage}
+          employeeNamePerformance={employeeNamePerformance}
+          handlePerformanceForm={(performanceStatus) =>
+            handlePerformanceForm(0,performanceStatus)
+          }
+        />
+      ) : null}
       {showForm ? (
         <UpdateModal
           selectedDatas={selectedData}

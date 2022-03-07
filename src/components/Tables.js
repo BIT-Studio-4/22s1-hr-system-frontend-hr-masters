@@ -3,12 +3,9 @@ import { Button, Table } from "reactstrap";
 
 import NotesModal from "./Modal/NotesModal";
 import FilesModal from "./Modal/FilesModal"
-import PerformancePlanModal from "./Modal/PerformancePlanModal"
 
 const Tables = (props) => {
-const tableHeader = ["first_name", "last_name", "username", "email"];
-
-
+  const tableHeader = ["first_name", "last_name", "username", "email"];
   //converts the string to be read by humans
   function humanize(str) {
     let result = str.replace(/(^\w)|(_\w)/g, (match) => match.toUpperCase());
@@ -16,31 +13,13 @@ const tableHeader = ["first_name", "last_name", "username", "email"];
     return result;
   }
 
-  //create files button
-  // const fileButton = (data) => {
-  //   let id_name =
-  //     data[tableHeader[0]] +
-  //     "_" +
-  //     data[tableHeader[1]];
-  //   return (
-  //     <td>
-  //       <Button
-  //         key={"fButton" + data.id}
-  //         id={"file_" + id_name}
-  //         onClick={<FilesModal/>}
-  //       >
-  //         Files
-  //       </Button>
-  //     </td>
-  //   );
-  // };
-
   //create the update button
   const updateButton = (data) => {
     let id_name =
       data[tableHeader[0]] +
       "_" +
       data[tableHeader[1]];
+      //Cameron_Ashworth
     return (
       <td>
         <Button
@@ -49,7 +28,7 @@ const tableHeader = ["first_name", "last_name", "username", "email"];
           id={"update_" + id_name}
           onClick={() => props.update(data, true)} 
         >
-            <img src="https://cdn.discordapp.com/attachments/866914474140237857/907053502851858452/icons8-update-24.png"/>
+          <img src="https://cdn.discordapp.com/attachments/866914474140237857/907053502851858452/icons8-update-24.png" />
         </Button>
       </td>
     );
@@ -75,26 +54,26 @@ const tableHeader = ["first_name", "last_name", "username", "email"];
     );
   };
 
-  //create the notes button
-  // const notesButton = (data) => {
-  //   let id_name =
-  //     data[tableHeader[2]] +
-  //     "_" +
-  //     data[tableHeader[3]];
-  //   return (
-  //     <td>
-  //       <Button
-  //         key={"notesButton" + data.id}
-  //         className="notesButton"
-  //         id={"get_notes_" + id_name}
-  //         onClick={() => props.show(data, true)}
-  //       >
-  //         Notes
-  //       </Button>
-  //     </td>
-  //   );
-  // };
-
+    //create the update button
+  const performanceButton = (data) => {
+    let id_name =
+    data[tableHeader[0]] +
+    "_" +
+    data[tableHeader[1]];
+      return (
+        <td>
+          <Button
+            key={"performance" + data.id}
+            className="performanceButton"
+            id={"performance_" + id_name}
+            onClick={() => props.performancePlan(data.id,id_name,true)} 
+          >
+              <img src="https://cdn.discordapp.com/attachments/866914474140237857/907056265618944020/icons8-note-24.png"/>
+          </Button>
+        </td>
+      );
+  };
+  
   return (
     <>
     <h2>Employees</h2>
@@ -126,8 +105,7 @@ const tableHeader = ["first_name", "last_name", "username", "email"];
           return (
             <tr key={data[tableHeader[0]] + data.id}>
               {tableValues}
-              <PerformancePlanModal
-              id={data.id} />
+              {performanceButton(data)}
               <NotesModal
               id={data.id} />
               <FilesModal 
