@@ -66,6 +66,7 @@ const Tables = (props) => {
             key={"performance" + data.id}
             className="performanceButton"
             id={"performance_" + id_name}
+            outline color='dark'
             onClick={() => props.performancePlan(data.id,id_name,true)} 
           >
               <img src="https://cdn.discordapp.com/attachments/866914474140237857/907056265618944020/icons8-note-24.png"/>
@@ -84,8 +85,8 @@ const Tables = (props) => {
             return <td key={header}>{humanize(header)}</td>;
           })}
           <td className="title" key="performance_plan">Performance Plan</td>
-          <td className="title" key="notes_header">Notes</td>
-          <td className="title" key="file_header">Files</td>
+{/*           <td className="title" key="notes_header">Notes</td>
+          <td className="title" key="file_header">Files</td> */}
           <td className="title" key="update_header">Update</td>
           <td className="title" key="delete_header">Delete</td>
 
@@ -106,13 +107,12 @@ const Tables = (props) => {
             <tr key={data[tableHeader[0]] + data.id}>
               {tableValues}
               {performanceButton(data)}
-              <NotesModal
+{/*               <NotesModal
               id={data.id} />
               <FilesModal 
-                id={data.id} />
+                id={data.id} /> */}
               {updateButton(data)}
               {deleteButton(data)}
-
             </tr>
           );
         })}
