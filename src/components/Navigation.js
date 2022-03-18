@@ -8,7 +8,7 @@ import {
   NavItem,
   NavLink
 } from 'reactstrap'
-import "./Navigation.css"
+import "./css/Navigation.css"
 
 const Navigation = (props) => {
   const [isOpen, setIsOpen] = useState(false)

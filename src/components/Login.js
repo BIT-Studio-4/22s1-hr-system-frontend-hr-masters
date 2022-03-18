@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { Button, Form, Label, Input, FormGroup, Col } from "reactstrap";
 import axios from "axios";
 
-import "./Login.css"
+import "./css/Login.css"
 
-const Login = (props) => {
+function Login(props) {
   const [loginInput, setLoginInput] = useState({ email: "", password: "" });
   const [rememberMe, setRememberMe] = useState(false);
   const [errorMessage, setErrorMessage] = useState({
@@ -27,8 +27,7 @@ const Login = (props) => {
               type="email"
               id="email_textbox"
               onChange={(e) => handleInputChange(e)}
-              validations="required"
-            />
+              validations="required" />
             <p style={{ color: "red" }}>{errorMessage.email}</p>
           </Col>
         </FormGroup>
@@ -43,8 +42,7 @@ const Login = (props) => {
               type="password"
               id="password_textbox"
               onChange={(e) => handleInputChange(e)}
-              validations="required"
-            />
+              validations="required" />
             <p style={{ color: "red" }}>{errorMessage.password}</p>
           </Col>
         </FormGroup>
@@ -58,13 +56,12 @@ const Login = (props) => {
               name="remember"
               type="checkbox"
               id="remember_checkbox"
-              onChange={(e) => handleInputChange(e)}
-            />
+              onChange={(e) => handleInputChange(e)} />
           </Col>
           <Col sm={3}>
-          <Button className="loginButton" id="login_button" onClick={() => login()}>
-            Login
-          </Button>
+            <Button className="loginButton" id="login_button" onClick={() => login()}>
+              Login
+            </Button>
           </Col>
         </FormGroup>
       </Form>
@@ -79,7 +76,7 @@ const Login = (props) => {
       resetError(e.target.name);
     }
     else {
-      setRememberMe(e.target.checked)
+      setRememberMe(e.target.checked);
     }
   }
 
@@ -141,6 +138,6 @@ const Login = (props) => {
       <p style={{ color: "red" }} id="ErrorMessage">{errorMessage.main}</p>
     </section>
   );
-};
+}
 
 export default Login;

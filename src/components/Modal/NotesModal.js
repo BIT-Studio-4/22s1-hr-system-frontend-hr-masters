@@ -1,7 +1,7 @@
 import  { React, useState } from 'react'
 import { Modal, Button, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 
-import Api from "./Api";
+import Api from "../Api";
 
 const NotesModal = (props) => {
     const [isOpen, setIsOpen] = useState(false)
