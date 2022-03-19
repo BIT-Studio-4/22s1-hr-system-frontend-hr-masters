@@ -226,7 +226,7 @@ const PerformancePlanModal = (props) => {
             <ButtonToolbar aria-label="Toolbar with button groups">
             <ButtonGroup  className="me-2" aria-label="First group">
                 <Button  onClick={() => displayPerformance()}>1</Button>
-                <Button >2</Button>
+                <Button>2</Button>
                 <Button>3</Button> 
             </ButtonGroup>
 
@@ -251,7 +251,9 @@ const PerformancePlanModal = (props) => {
         </p>
       </ModalBody>
       <ModalFooter>  
-        {!isUpdate ? 
+        {isDisplay ?
+          <>
+             { !isUpdate ? 
           <>
           <Button className="updateButton" id="update_button" onClick={() => updatePerformance()}>
             Update
@@ -259,7 +261,7 @@ const PerformancePlanModal = (props) => {
           </> 
           : 
           <>
-            { isCreate ? (
+            { isCreate ?(
               <>
                   <Button className="saveButton" id="save_button" onClick={() => postData()}>
                   Save Changes
@@ -268,10 +270,12 @@ const PerformancePlanModal = (props) => {
             ) :
               <Button className="saveButton" id="save_button" onClick={() => prepareData()}>
                   Save Changes
-                </Button>}
-              
+                </Button>}          
             </>            
         }
+          </>:null
+        }
+       
         <Button className="cancelButton" id="cancel_button" onClick={() => closeForm()}>
                   Cancel
        </Button>
