@@ -66,7 +66,6 @@ const Tables = (props) => {
             key={"performance" + data.id}
             className="performanceButton"
             id={"performance_" + id_name}
-            outline color='dark'
             onClick={() => props.performancePlan(data.id,id_name,true)} 
           >
               <img src="https://cdn.discordapp.com/attachments/866914474140237857/907056265618944020/icons8-note-24.png"/>

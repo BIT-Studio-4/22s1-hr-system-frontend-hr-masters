@@ -1,14 +1,7 @@
 import  { React, useState } from 'react'
 import {
-    Button,
-    Form,
-    Label,
-    Input,
-    Modal,
-    ModalHeader,
-    ModalBody,
-  ModalFooter,
-    FormText
+    Button,Form,Label,Input,Modal,ModalHeader,ModalBody,ModalFooter,
+    FormText,ButtonToolbar,ButtonGroup
 } from "reactstrap";
   
 import Humanize from "../Humanize";
@@ -17,9 +10,15 @@ import Api from "../Api";
 const PerformancePlanModal = (props) => {
   const [error, setError] = useState({});
   const [newSelectedData, setNewSelectedData] = useState({});
+  const [isUpdate, setIsUpdate] = useState(false);
+  const [isCreate, setIsCreate] = useState(false);
+  const [isDisplay, setIsDisplay] = useState(false);
   let selectedDatas = props.selectedDatas.data;
   let employeeName = props.employeeNamePerformance;
   let employeeId = props.employeeId;
+  let performanceId = [];
+  console.log(selectedDatas);
+  
   const description = {
     "initial_goal": "The first field should be a changeable initial goal.",
     "specific": "What do you want to accomplish? Who can help you get there? When do you want this? Why is this your goal?",
@@ -29,6 +28,15 @@ const PerformancePlanModal = (props) => {
     "time_bound": "What the deadline and is it realistic?",
     "goal_statement": "Based on what their answers have revealed in the answers above."  
   }
+
+  const storeId = () => { 
+    if (selectedDatas) { 
+      performanceId.push(selectedDatas.id)
+      console.log("performanceId"+performanceId)
+    }   
+  }
+  storeId() 
+  
   //Clears the form
   function clearForm() {
     setNewSelectedData({});
@@ -191,15 +199,18 @@ const PerformancePlanModal = (props) => {
       });
   }
 
-  const [isUpdate, setIsUpdate] = useState(false);
-  const [isCreate, setIsCreate] = useState(false);
   const updatePerformance = () => {
     setIsUpdate(true);
   }
   const createNewForm = () => { 
     setIsCreate(true);
     setIsUpdate(true);
-
+  }
+  const displayPerformance = () => { 
+    setIsDisplay(true);
+  }
+  const notDisplayPerformance = () => { 
+    setIsDisplay(false);
   }
   return (
     <Modal isOpen={props.showPerformance} toggle={() => closeForm()}>
@@ -209,8 +220,22 @@ const PerformancePlanModal = (props) => {
           <>
           <Button outline className="createButton" onClick={() => createNewForm()}>
           Create a new
-          </Button>
-            {performance_detail()}
+            </Button>
+            <br />
+            <br />
+            <ButtonToolbar aria-label="Toolbar with button groups">
+            <ButtonGroup className="me-2" aria-label="First group">
+                <Button onClick={() => displayPerformance()}>1</Button>
+                <Button onClick={() => notDisplayPerformance()}>2</Button>
+                <Button>3</Button> 
+            </ButtonGroup>
+
+          </ButtonToolbar>
+            {isDisplay ?
+              <> {performance_detail()}</>
+            :null 
+            }
+            
           </>
          :
           <>
