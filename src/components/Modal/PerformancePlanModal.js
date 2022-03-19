@@ -208,9 +208,9 @@ const PerformancePlanModal = (props) => {
   }
   const displayPerformance = () => { 
     setIsDisplay(true);
-  }
-  const notDisplayPerformance = () => { 
-    setIsDisplay(false);
+    if (isDisplay) { 
+      setIsDisplay(false);
+    }
   }
   return (
     <Modal isOpen={props.showPerformance} toggle={() => closeForm()}>
@@ -224,9 +224,9 @@ const PerformancePlanModal = (props) => {
             <br />
             <br />
             <ButtonToolbar aria-label="Toolbar with button groups">
-            <ButtonGroup className="me-2" aria-label="First group">
-                <Button onClick={() => displayPerformance()}>1</Button>
-                <Button onClick={() => notDisplayPerformance()}>2</Button>
+            <ButtonGroup  className="me-2" aria-label="First group">
+                <Button  onClick={() => displayPerformance()}>1</Button>
+                <Button >2</Button>
                 <Button>3</Button> 
             </ButtonGroup>
 
