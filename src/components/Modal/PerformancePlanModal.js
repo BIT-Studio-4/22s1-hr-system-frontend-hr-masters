@@ -19,6 +19,7 @@ const PerformancePlanModal = (props) => {
   const [newSelectedData, setNewSelectedData] = useState({});
   let selectedDatas = props.selectedDatas.data;
   let employeeName = props.employeeNamePerformance;
+  let employeeId = props.employeeId;
   const description = {
     "initial_goal": "The first field should be a changeable initial goal.",
     "specific": "What do you want to accomplish? Who can help you get there? When do you want this? Why is this your goal?",
@@ -62,9 +63,12 @@ const PerformancePlanModal = (props) => {
       }
       setError(errors);
     }
-    
+   
       //Creates the form layout
   const form = () => {
+    if (isCreate) {
+      selectedDatas = {};
+    }
     if (selectedDatas !== undefined) {
       let labels = [];
       for (const [key, val] of Object.entries(description)) {          
@@ -93,7 +97,28 @@ const PerformancePlanModal = (props) => {
           return <Form>{labels}</Form>;
       }
   };
-    
+   
+  const performance_detail = () => {
+    if (selectedDatas !== undefined) {
+      let labels = [];
+      for (const [key, val] of Object.entries(description)) {          
+              labels.push (
+                <Label key={key}>
+                 {Humanize(key)}
+                  <br />               
+                  <p>{val}</p>
+                  <br /> 
+                  <p id={key + "_textbox"}>{selectedDatas[key]} </p>
+                  <p id={"error_" + key} style={{ color: "red" }}>
+                          {error[key]}
+                      </p>
+                  </Label>
+              );
+          };
+          return <ModalBody>{labels}</ModalBody>;
+      }
+  }
+
   //close the form modal
   function closeForm() { 
     props.setShowPerformance(false);
@@ -139,26 +164,92 @@ const PerformancePlanModal = (props) => {
       });
   }
 
+  function postData() {
+    let sendData = {};
+    let url = "performance";
+    for (const [key, value] of Object.entries(newSelectedData)) {
+      if (value !== "") {
+        sendData[key] = value;
+      sendData.employee_id = employeeId;
+      }
+    }
+    Api.postData(url, sendData)
+      .then((response) => {
+        console.log(response);
+        props.setMainMessage(`Update: ${response.status} ${response.statusText}`);
+        closeForm();
+        props.setFetchTrigger(true);
+      })
+      .catch((error) => {
+/*         console.log(error.response.data.errors);
+        let copyError = {};
+        for(const [key, val] of Object.entries(error.response.data.errors)) {
+          copyError[key] = val.toString()
+        }
+        copyError.main = error.response.data.message.toString();
+        setError(copyError); */
+      });
+  }
 
+  const [isUpdate, setIsUpdate] = useState(false);
+  const [isCreate, setIsCreate] = useState(false);
+  const updatePerformance = () => {
+    setIsUpdate(true);
+  }
+  const createNewForm = () => { 
+    setIsCreate(true);
+    setIsUpdate(true);
+
+  }
   return (
     <Modal isOpen={props.showPerformance} toggle={() => closeForm()}>
       <ModalHeader>{"Performance Plan  ----" + Humanize(employeeName)}</ModalHeader>
       <ModalBody>
-        <Button outline className="resetButton" onClick={() => clearForm()}>
-          Reset form
-        </Button>
-        {form()}
+        {!isUpdate ? 
+          <>
+          <Button outline className="createButton" onClick={() => createNewForm()}>
+          Create a new
+          </Button>
+            {performance_detail()}
+          </>
+         :
+          <>
+            <Button outline className="resetButton" onClick={() => clearForm()}>
+            Reset new input
+            </Button>
+            {form()}
+         </>
+          
+        }
         <p id="error_main" style={{ color: "red" }}>
           {error.main}
         </p>
       </ModalBody>
       <ModalFooter>  
-          <Button className="saveButton" id="save_button" onClick={() => prepareData()}>
-            Save Changes
+        {!isUpdate ? 
+          <>
+          <Button className="updateButton" id="update_button" onClick={() => updatePerformance()}>
+            Update
           </Button>
+          </> 
+          : 
+          <>
+            { isCreate ? (
+              <>
+                  <Button className="saveButton" id="save_button" onClick={() => postData()}>
+                  Save Changes
+                </Button>     
+                </>
+            ) :
+              <Button className="saveButton" id="save_button" onClick={() => prepareData()}>
+                  Save Changes
+                </Button>}
+              
+            </>            
+        }
         <Button className="cancelButton" id="cancel_button" onClick={() => closeForm()}>
-          Cancel
-        </Button>
+                  Cancel
+       </Button>
       </ModalFooter>
     </Modal>
   );
