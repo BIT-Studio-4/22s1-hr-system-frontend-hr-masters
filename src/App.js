@@ -27,6 +27,7 @@ const App = () => {
   const [showPerformance, setShowPerformance] = useState(false);//toggle to show performance modal 
   const [performanceData, setPerformanceData] = useState("");//stores the data of performancePlan
   const [employeeNamePerformance, SetEmployeeNamePerformance] = useState("");//stores the name or employee of performancePlan
+  const [employeeId, SetEmployeeId] = useState();
   const tableHeaders = {
     employee: [
       "first_name",
@@ -126,6 +127,7 @@ const App = () => {
       setLocation(`performance?employee_id=${id}`); 
       setFetchTrigger(true);
       SetEmployeeNamePerformance(name)
+      SetEmployeeId(id)
     }
   }
 
@@ -178,6 +180,7 @@ const App = () => {
           setShowPerformance={setShowPerformance}
           setMainMessage={setMainMessage}
           employeeNamePerformance={employeeNamePerformance}
+          employeeId={employeeId}
         />
       ) : null}
       {showForm ? (
