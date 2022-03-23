@@ -10,33 +10,18 @@ import "../css/PerformancePlanModal.css";
 const PerformancePlanModal = (props) => {
   const [error, setError] = useState({});
   const [newSelectedData, setNewSelectedData] = useState({});
-  const [isUpdate, setIsUpdate] = useState(false);
-  const [isCreate, setIsCreate] = useState(false);
-  const [isDisplay, setIsDisplay] = useState(false);
+  const [isUpdate, setIsUpdate] = useState(false);//toggle of update
+  const [isCreate, setIsCreate] = useState(false);//toggle of create
+  const [isDisplay, setIsDisplay] = useState(false);//toggle of display information
   const [subUrl, setSubUrl] = useState('')
 
   let selectedDatas = props.selectedDatas;
   let employeeName = props.employeeNamePerformance;
   let employeeId = props.employeeData.id;
-  let performance_plan = props.employeeData.performance_plan;
+  let performance_plan = props.employeeData.performance_plan;//it comes from employeeTable
 
-  props.addLocation(subUrl);
-
-  console.log(selectedDatas)
-  console.log(employeeName)
-  console.log("employeeId: " + employeeId)
-
-
-
-
-  const buttons = () => { 
-    return performance_plan.map((planId) => { 
-      console.log("planId "+planId.id)
-     return <Button key={planId.id} onClick={() => displayPerformance(planId.id)}>{planId.id}</Button>     
-   })
-  }
-  const description = {
-    "title":"Performance Plan Name",
+  const description = { //description for each line of the performance plan
+    "title":"Performance Plan Titile",
     "initial_goal": "The first field should be a changeable initial goal.",
     "specific": "What do you want to accomplish? Who can help you get there? When do you want this? Why is this your goal?",
     "measureable": "How can you measure progress and know if you've successfully met your goal?",
@@ -45,7 +30,15 @@ const PerformancePlanModal = (props) => {
     "time_bound": "What the deadline and is it realistic?",
     "goal_statement": "Based on what their answers have revealed in the answers above."  
   }
-  
+
+  props.addLocation(subUrl);// add new sub url and pass it to APP.js to send a request
+
+  const buttons = () => { //create buttons of plan depends on how many plans the employee has. 
+    return performance_plan.map((planId,index) => { 
+     return <Button key={planId.id} onClick={() => displayPerformance(planId.id)}>Plan {(index+1)}</Button>     
+   })
+  }
+
   //Clears the form
   function clearForm() {
     setNewSelectedData({});
@@ -207,15 +200,14 @@ const PerformancePlanModal = (props) => {
         setError(copyError); */
       });
   }
-
-  const updatePerformance = () => {
-    setIsUpdate(true);
-  }
   const createNewForm = () => { 
     setIsCreate(true);
+    //setIsUpdate(true);
+    console.log("isUpdate" + isUpdate)
+    console.log("isCreate"+ isCreate)
+  }
+  const updatePerformance = () => {
     setIsUpdate(true);
-    console.log("create " + isCreate);
-
   }
   const displayPerformance = (id) => { 
     setIsDisplay(true);
@@ -226,11 +218,9 @@ const PerformancePlanModal = (props) => {
     <Modal isOpen={props.showPerformance} toggle={() => closeForm()}>
       <ModalHeader>{"Performance Plan  ----" + Humanize(employeeName)}</ModalHeader>
       <ModalBody>
-        {!isUpdate && !isCreate? 
+        {!isUpdate && !isCreate ? 
           <>
-          <Button outline className="createButton" onClick={() => createNewForm()}>
-          Create a new
-            </Button>
+            <Button outline className="createButton" onClick={() => createNewForm()}>Create a new</Button>
             <br />
             <br />
             <ButtonToolbar aria-label="Toolbar with button groups">
@@ -238,11 +228,7 @@ const PerformancePlanModal = (props) => {
                 {buttons()}
             </ButtonGroup>
             </ButtonToolbar> 
-            {isDisplay ? 
-              <> {performance_detail()}</>
-            :null 
-            }
-            
+            {isDisplay ? <>{performance_detail()} </>:null } 
           </>
          :
           <>
@@ -250,8 +236,7 @@ const PerformancePlanModal = (props) => {
             Reset new input
             </Button>
             {form()}
-         </>
-          
+         </>   
         }
         <p id="error_main" style={{ color: "red" }}>
           {error.main}
@@ -260,17 +245,13 @@ const PerformancePlanModal = (props) => {
       <ModalFooter>  
         {isDisplay ?
           <>
-             { !isUpdate ? 
-              <Button className="updateButton" id="update_button" onClick={() => updatePerformance()}> Update </Button>
-            : 
-              <>
-               <Button Button className="saveButton" id="save_button" onClick={() => prepareData()}>Save Changes</Button>
-                        
-              </>            
-            }
-          </> : isCreate ? <><Button className="saveButton" id="save_button" onClick={() => postData()}>Save Form</Button>  
-              </>:null
+            {!isUpdate && !isCreate ? <Button className="updateButton" id="update_button" onClick={() => updatePerformance()}> Update </Button>: null}
+            {isUpdate && !isCreate ? <Button Button className="saveButton" id="save_button" onClick={() => prepareData()}>Save Changes</Button>:null }
+            {!isUpdate && isCreate ? <Button className="saveButton" id="save_button" onClick={() => postData()}>Save Form</Button> : null} 
+          </>
+          :null
         }
+         { !isDisplay && isCreate  ? <Button className="saveButton" id="save_button" onClick={() => postData()}>Save Form</Button> :null} 
        
         <Button className="cancelButton" id="cancel_button" onClick={() => closeForm()}>
                   Cancel
