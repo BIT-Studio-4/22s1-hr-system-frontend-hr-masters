@@ -13,7 +13,7 @@ const PerformancePlanModal = (props) => {
   const [isUpdate, setIsUpdate] = useState(false);//toggle of update
   const [isCreate, setIsCreate] = useState(false);//toggle of create
   const [isDisplay, setIsDisplay] = useState(false);//toggle of display information
-  const [subUrl, setSubUrl] = useState('')
+  const [subUrl, setSubUrl] = useState('')//set a new sub url
 
   let selectedDatas = props.selectedDatas;
   let employeeName = props.employeeNamePerformance;
@@ -83,9 +83,7 @@ const PerformancePlanModal = (props) => {
       let labels = [];
       for (const [key, val] of Object.entries(description)) {          
               labels.push (
-                <Label key={key}>
-               {/* <p className='label_title'  >{Humanize(key)}</p>
-                  <br />  */}              
+                <Label key={key}>          
                   <FormText>
                     {val}
                   </FormText>
@@ -188,7 +186,6 @@ const PerformancePlanModal = (props) => {
         console.log(response);
         props.setMainMessage(`Update: ${response.status} ${response.statusText}`);
         closeForm();
-        //props.setFetchTrigger(true);
       })
       .catch((error) => {
         console.log(error);
@@ -202,16 +199,13 @@ const PerformancePlanModal = (props) => {
   }
   const createNewForm = () => { 
     setIsCreate(true);
-    //setIsUpdate(true);
-    console.log("isUpdate" + isUpdate)
-    console.log("isCreate"+ isCreate)
   }
   const updatePerformance = () => {
     setIsUpdate(true);
   }
   const displayPerformance = (id) => { 
     setIsDisplay(true);
-    setSubUrl(`performance/${id}`)
+    setSubUrl(`performance/${id}`)//send get request when click an individal plan
   }
 
   return (
@@ -251,11 +245,8 @@ const PerformancePlanModal = (props) => {
           </>
           :null
         }
-         { !isDisplay && isCreate  ? <Button className="saveButton" id="save_button" onClick={() => postData()}>Save Form</Button> :null} 
-       
-        <Button className="cancelButton" id="cancel_button" onClick={() => closeForm()}>
-                  Cancel
-        </Button>
+         { !isDisplay && isCreate  ? <Button className="saveButton" id="save_button" onClick={() => postData()}>Save Form</Button> :null}  
+        <Button className="cancelButton" id="cancel_button" onClick={() => closeForm()}> Cancel</Button>
       </ModalFooter>
     </Modal>
   );

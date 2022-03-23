@@ -17,7 +17,6 @@ import PerformancePlanModal from "./components/Modal/PerformancePlanModal";
 const App = () => {
   const [responseData, setResponseData] = useState(""); //stores the data of the api request
   const [location, setLocation] = useState("employee"); //tells the system what table to use... future plans
-  const [fetchTrigger, setFetchTrigger] = useState(true); //lets the system know if it needs to fetch the data again
   const [mainMessage, setMainMessage] = useState(""); //main message system, to let the user know if it was successful
   const [selectedData, setSelectedData] = useState(""); //gives data of the current selected object from the table
   const [formType, setFormType] = useState(""); //future use if we want create and update to be both modal
@@ -63,7 +62,7 @@ const App = () => {
     }
     else {
       setLoggedIn(false);
-      if (window.location.pathname.substr(1) !== 'login') {// unclear
+      if (window.location.pathname.substr(1) !== 'login') {
         window.location.href = '/login';
       }
     }
@@ -82,10 +81,8 @@ const App = () => {
     let url = location.toLowerCase();
     Api.getData(url)
       .then((response) => {
-        //setFetchTrigger(false);
         if (showPerformance) {
           setPerformanceData(response.data);
-          //setLocation('employee');
         }
         else {  
           setResponseData(response.data);
@@ -192,7 +189,6 @@ const App = () => {
           tableHeaders={tableHeaders[location]}
           location={location}
           formType={formType}
-     /*      setFetchTrigger={setFetchTrigger} */
           setMainMessage={setMainMessage}
           handleShowForm={(updateStatus) =>
             handleShowForm("", {}, updateStatus)
