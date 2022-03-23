@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: 'https://hr-masters-backend-test.herokuapp.com/api/', // test deploy api
+  baseURL: process.env.REACT_APP_SERVER_URL, // test deploy api
 });
 const Api = {
   getData: (location) =>
