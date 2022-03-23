@@ -66,7 +66,7 @@ const Tables = (props) => {
             key={"performance" + data.id}
             className="performanceButton"
             id={"performance_" + id_name}
-            onClick={() => props.performancePlan(data.id,id_name,true)} 
+            onClick={() => props.performancePlan(data,id_name,true)} 
           >
               <img src="https://cdn.discordapp.com/attachments/866914474140237857/907056265618944020/icons8-note-24.png"/>
           </Button>
@@ -106,10 +106,6 @@ const Tables = (props) => {
             <tr key={data[tableHeader[0]] + data.id}>
               {tableValues}
               {performanceButton(data)}
-{/*               <NotesModal
-              id={data.id} />
-              <FilesModal 
-                id={data.id} /> */}
               {updateButton(data)}
               {deleteButton(data)}
             </tr>
