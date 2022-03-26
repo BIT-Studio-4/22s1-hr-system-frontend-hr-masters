@@ -17,7 +17,7 @@ import "../css/UpdateModal.css";
 
 const FormModal = (props) => {
   const [error, setError] = useState({});
-  const [newSelectedData, setNewSelectedData] = useState({});
+  //const [newSelectedData, setNewSelectedData] = useState({});
   const tableHeaders = props.tableHeaders;
   let selectedDatas = props.selectedDatas;
 
@@ -25,6 +25,18 @@ const FormModal = (props) => {
   function clearForm() {
     setNewSelectedData({});
   }
+
+   //store a pice of new data,, when edit will be targeted will automatically show the original data
+   const [newSelectedData, setNewSelectedData] = useState(
+    !selectedDatas ?{
+          id: 0,
+          first_name: '',
+          last_name: '',
+          username: '',
+          email: '',
+          performance_plan: [],
+        } : selectedDatas   
+  ) 
 
   //Update the form field
   function handleInputChange(e) {
@@ -120,6 +132,8 @@ const FormModal = (props) => {
       .then((response) => {
         console.log(response);
         props.setMainMessage(`Update: ${response.status} ${response.statusText}`);
+        props.updateDataState(sendData)
+        console.log(sendData)
         closeForm();
       })
       .catch((error) => {
@@ -141,6 +155,7 @@ const FormModal = (props) => {
       .then((response) => {
         console.log(response);
         props.setMainMessage(`Update: ${response.status} ${response.statusText}`);
+        props.addNewDataToState(sendData)
         closeForm();
       })
       .catch((error) => {
