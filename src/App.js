@@ -35,6 +35,24 @@ const App = () => {
       "email",
     ]
   }
+    //when create a new newData in each component will store the data
+    const addNewDataToState = (newData) => {
+      setResponseData([...responseData, newData])
+    }
+  
+    //change the status of edit
+    const updateDataState = (newData) => {
+      //get index of table on the list
+      const newDataIndex = responseData.findIndex((data) => data.id === newData.id)
+      const newArray = [
+        ...responseData.slice(0, newDataIndex),
+        newData,
+        ...responseData.slice(newDataIndex + 1),
+      ]
+      setResponseData(newArray)
+  }
+  
+
   //to get sub url form each sub component
   const addLocation = (location) => {
     setLocation(location)
@@ -83,9 +101,11 @@ const App = () => {
       .then((response) => {
         if (showPerformance) {
           setPerformanceData(response.data);
+          console.log(response.data);
         }
         else {  
-          setResponseData(response.data);
+          setResponseData(response.data.data);
+          console.log(response.data.data);
          }    
         //console.log(response)
       })
@@ -127,6 +147,7 @@ const App = () => {
     if (performanceStatus) {
       SetEmployeeNamePerformance(employeeName)
       SetEmployeeData(employeeData)
+      //setLocation(`performance?filter[employee_id]=${employeeData.id}`)
     }
   }
 
@@ -145,7 +166,7 @@ const App = () => {
                 <>
                 <section className="tableSection">
                   <Tables
-                    data={responseData.data}
+                    data={responseData}
                     update={(data, updateStatus) => handleShowForm("update", data, updateStatus)}
                     delete={(data, deleteStatus) => handleDeleteStatus(data, deleteStatus)}
                     //pass props to performancePlan
@@ -173,7 +194,7 @@ const App = () => {
       )}
       {showPerformance ? (
         <PerformancePlanModal
-          selectedDatas={performanceData}
+          performanceData={performanceData}
           showPerformance={showPerformance}
           setShowPerformance={setShowPerformance}
           setMainMessage={setMainMessage}
@@ -184,6 +205,8 @@ const App = () => {
       ) : null}
       {showForm ? (
         <UpdateModal
+          addNewDataToState={addNewDataToState}
+          updateDataState={updateDataState}
           selectedDatas={selectedData}
           showForm={showForm}
           tableHeaders={tableHeaders[location]}
