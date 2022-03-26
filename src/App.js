@@ -209,7 +209,7 @@ const App = () => {
           updateDataState={updateDataState}
           selectedDatas={selectedData}
           showForm={showForm}
-          tableHeaders={tableHeaders[location]}
+          tableHeaders={tableHeaders["employee"]}
           location={location}
           formType={formType}
           setMainMessage={setMainMessage}
