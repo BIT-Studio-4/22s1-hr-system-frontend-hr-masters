@@ -83,12 +83,10 @@ const App = () => {
       .then((response) => {
         if (showPerformance) {
           setPerformanceData(response.data);
-          console.log(response)
         }
         else {  
           setResponseData(response.data);
          }    
-        //console.log(response)
       })
       .catch((error) => {
         console.log(error);

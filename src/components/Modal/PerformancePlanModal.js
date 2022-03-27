@@ -116,9 +116,7 @@ const PerformancePlanModal = (props) => {
   };
    
   const performance_detail = () => {
-    console.log(performanceData)
     if (performanceData !== undefined) {
-      console.log(performanceData)
       let labels = [];
       for (const [key, val] of Object.entries(description)) { 
         if(performanceData[key])        //only display valid value
@@ -200,12 +198,12 @@ const PerformancePlanModal = (props) => {
       })
       .catch((error) => {
         console.log(error);
-/*         let copyError = {};
+         let copyError = {};
         for(const [key, val] of Object.entries(error.response.data.errors)) {
           copyError[key] = val.toString()
         }
         copyError.main = error.response.data.message.toString();
-        setError(copyError); */
+        setError(copyError); 
       });
   }
   const createNewForm = () => { 
