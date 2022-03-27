@@ -83,6 +83,7 @@ const App = () => {
       .then((response) => {
         if (showPerformance) {
           setPerformanceData(response.data);
+          console.log(response)
         }
         else {  
           setResponseData(response.data);
@@ -173,7 +174,7 @@ const App = () => {
       )}
       {showPerformance ? (
         <PerformancePlanModal
-          selectedDatas={performanceData}
+          performanceData={performanceData}
           showPerformance={showPerformance}
           setShowPerformance={setShowPerformance}
           setMainMessage={setMainMessage}
@@ -186,7 +187,7 @@ const App = () => {
         <UpdateModal
           selectedDatas={selectedData}
           showForm={showForm}
-          tableHeaders={tableHeaders[location]}
+          tableHeaders={tableHeaders['employee']}
           location={location}
           formType={formType}
           setMainMessage={setMainMessage}

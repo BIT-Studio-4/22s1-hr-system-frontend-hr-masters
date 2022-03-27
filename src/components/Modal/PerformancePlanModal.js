@@ -1,7 +1,16 @@
 import  { React, useState } from 'react'
 import {
-    Button,Form,Label,Input,Modal,ModalHeader,ModalBody,ModalFooter,
-    FormText,ButtonToolbar,ButtonGroup
+  Button,
+  Form,
+  Label,
+  Input,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  FormText,
+  ButtonToolbar,
+  ButtonGroup
 } from "reactstrap";
 import Humanize from "../Humanize";
 import Api from "../Api";
@@ -15,7 +24,7 @@ const PerformancePlanModal = (props) => {
   const [isDisplay, setIsDisplay] = useState(false);//toggle of display information
   const [subUrl, setSubUrl] = useState('')//set a new sub url
 
-  let selectedDatas = props.selectedDatas;
+  let performanceData = props.performanceData;
   let employeeName = props.employeeNamePerformance;
   let employeeId = props.employeeData.id;
   let performance_plan = props.employeeData.performance_plan;//it comes from employeeTable
@@ -77,9 +86,9 @@ const PerformancePlanModal = (props) => {
       //Creates the form layout
   const form = () => {
     if (isCreate) {
-      selectedDatas = {};
+      performanceData = {};
     }
-    if (selectedDatas !== undefined) {
+    if (performanceData !== undefined) {
       let labels = [];
       for (const [key, val] of Object.entries(description)) {          
               labels.push (
@@ -92,7 +101,7 @@ const PerformancePlanModal = (props) => {
                           type="textarea"
                           id={key + "_textbox"}
                           value={newSelectedData[key] || ""}
-                          placeholder={selectedDatas[key]}                       
+                          placeholder={performanceData[key]}                       
                           onChange={(e) => handleInputChange(e)}
                           validations="required"
                       />
@@ -107,16 +116,18 @@ const PerformancePlanModal = (props) => {
   };
    
   const performance_detail = () => {
-    if (selectedDatas !== undefined) {
+    console.log(performanceData)
+    if (performanceData !== undefined) {
+      console.log(performanceData)
       let labels = [];
       for (const [key, val] of Object.entries(description)) { 
-        if(selectedDatas[key])        //only display valid value
+        if(performanceData[key])        //only display valid value
               labels.push (
                 <Label key={key}>
                   <p className='labelTitle'>{val}</p>
                   <br /> 
-                  <p id={key + "_textbox"}>{selectedDatas[key]} </p>
-                  <p>-------------------------------------------</p>
+                  <p id={key + "_textbox"}>{performanceData[key]} </p>
+                  <hr />
                   <p id={"error_" + key} style={{ color: "red" }}>
                           {error[key]}
                       </p>
@@ -149,7 +160,7 @@ const PerformancePlanModal = (props) => {
       setError(copyError);
     }
     else {
-      put(selectedDatas.id, sendData)
+      put(performanceData.id, sendData)
     }
   }
 

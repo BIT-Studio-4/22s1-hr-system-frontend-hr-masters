@@ -106,6 +106,10 @@ const Tables = (props) => {
             <tr key={data[tableHeader[0]] + data.id}>
               {tableValues}
               {performanceButton(data)}
+              {/*               <NotesModal
+              id={data.id} />
+              <FilesModal 
+                id={data.id} /> */}
               {updateButton(data)}
               {deleteButton(data)}
             </tr>
