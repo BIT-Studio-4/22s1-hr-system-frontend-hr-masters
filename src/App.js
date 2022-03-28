@@ -144,7 +144,7 @@ const App = () => {
                 <>
                 <section className="tableSection">
                   <Tables
-                    data={responseData.data}
+                    data={responseData}
                     update={(data, updateStatus) => handleShowForm("update", data, updateStatus)}
                     delete={(data, deleteStatus) => handleDeleteStatus(data, deleteStatus)}
                     //pass props to performancePlan

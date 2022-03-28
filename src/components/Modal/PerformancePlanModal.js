@@ -140,6 +140,7 @@ const PerformancePlanModal = (props) => {
   function closeForm() { 
     props.setShowPerformance(false);
     setError({});
+    props.addLocation('employee');
   }
 
   //setup the data and checks if anything has changed
@@ -161,7 +162,6 @@ const PerformancePlanModal = (props) => {
       put(performanceData.id, sendData)
     }
   }
-
   //Send a put request to the API
   function put(id, sendData) {
     let url = "performance";
