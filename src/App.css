@@ -72,12 +72,7 @@
   background-color: white;
 }
 
-.deleteButton {
-  color: black;
-  background-color: white;
-}
-
-.updateButton {
+.updateButton,.performanceButton,.deleteButton{
 color: black;
 background-color: white;
 }
