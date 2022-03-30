@@ -121,7 +121,6 @@ const FormModal = (props) => {
         console.log(response);
         props.setMainMessage(`Update: ${response.status} ${response.statusText}`);
         closeForm();
-        props.setFetchTrigger(true);
       })
       .catch((error) => {
         let copyError = {};
@@ -143,9 +142,9 @@ const FormModal = (props) => {
         console.log(response);
         props.setMainMessage(`Update: ${response.status} ${response.statusText}`);
         closeForm();
-        props.setFetchTrigger(true);
       })
       .catch((error) => {
+        console.log(error);
         console.log(error.response.data.errors);
         let copyError = {};
         for(const [key, val] of Object.entries(error.response.data.errors)) {

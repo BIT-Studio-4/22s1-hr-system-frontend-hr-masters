@@ -1,25 +1,36 @@
 import  { React, useState } from 'react'
 import {
-    Button,
-    Form,
-    Label,
-    Input,
-    Modal,
-    ModalHeader,
-    ModalBody,
+  Button,
+  Form,
+  Label,
+  Input,
+  Modal,
+  ModalHeader,
+  ModalBody,
   ModalFooter,
-    FormText
+  FormText,
+  ButtonToolbar,
+  ButtonGroup
 } from "reactstrap";
-  
 import Humanize from "../Humanize";
 import Api from "../Api";
+import "../css/PerformancePlanModal.css";
 
 const PerformancePlanModal = (props) => {
   const [error, setError] = useState({});
   const [newSelectedData, setNewSelectedData] = useState({});
-  let selectedDatas = props.selectedDatas.data;
+  const [isUpdate, setIsUpdate] = useState(false);//toggle of update
+  const [isCreate, setIsCreate] = useState(false);//toggle of create
+  const [isDisplay, setIsDisplay] = useState(false);//toggle of display information
+  const [subUrl, setSubUrl] = useState('')//set a new sub url
+
+  let performanceData = props.performanceData;
   let employeeName = props.employeeNamePerformance;
-  const description = {
+  let employeeId = props.employeeData.id;
+  let performance_plan = props.employeeData.performance_plan;//it comes from employeeTable
+
+  const description = { //description for each line of the performance plan
+    "title":"Performance Plan Titile",
     "initial_goal": "The first field should be a changeable initial goal.",
     "specific": "What do you want to accomplish? Who can help you get there? When do you want this? Why is this your goal?",
     "measureable": "How can you measure progress and know if you've successfully met your goal?",
@@ -28,6 +39,15 @@ const PerformancePlanModal = (props) => {
     "time_bound": "What the deadline and is it realistic?",
     "goal_statement": "Based on what their answers have revealed in the answers above."  
   }
+
+  props.addLocation(subUrl);// add new sub url and pass it to APP.js to send a request
+
+  const buttons = () => { //create buttons of plan depends on how many plans the employee has. 
+    return performance_plan.map((planId,index) => { 
+     return <Button key={planId.id} onClick={() => displayPerformance(planId.id)}>Plan {(index+1)}</Button>     
+   })
+  }
+
   //Clears the form
   function clearForm() {
     setNewSelectedData({});
@@ -62,25 +82,26 @@ const PerformancePlanModal = (props) => {
       }
       setError(errors);
     }
-    
+   
       //Creates the form layout
   const form = () => {
-    if (selectedDatas !== undefined) {
+    if (isCreate) {
+      performanceData = {};
+    }
+    if (performanceData !== undefined) {
       let labels = [];
       for (const [key, val] of Object.entries(description)) {          
               labels.push (
-                <Label key={key}>
-                  {Humanize(key)}
-                  <br />               
+                <Label key={key}>          
                   <FormText>
                     {val}
                   </FormText>
                       <Input
                           name={key}
-                          type="text"
+                          type="textarea"
                           id={key + "_textbox"}
                           value={newSelectedData[key] || ""}
-                          placeholder={selectedDatas[key]}                       
+                          placeholder={performanceData[key]}                       
                           onChange={(e) => handleInputChange(e)}
                           validations="required"
                       />
@@ -93,11 +114,33 @@ const PerformancePlanModal = (props) => {
           return <Form>{labels}</Form>;
       }
   };
-    
+   
+  const performance_detail = () => {
+    if (performanceData !== undefined) {
+      let labels = [];
+      for (const [key, val] of Object.entries(description)) { 
+        if(performanceData[key])        //only display valid value
+              labels.push (
+                <Label key={key}>
+                  <p className='labelTitle'>{val}</p>
+                  <br /> 
+                  <p id={key + "_textbox"}>{performanceData[key]} </p>
+                  <hr />
+                  <p id={"error_" + key} style={{ color: "red" }}>
+                          {error[key]}
+                      </p>
+                  </Label>
+              );
+          };
+          return <ModalBody>{labels}</ModalBody>;
+      }
+  }
+
   //close the form modal
   function closeForm() { 
     props.setShowPerformance(false);
     setError({});
+    props.addLocation('employee');
   }
 
   //setup the data and checks if anything has changed
@@ -116,10 +159,9 @@ const PerformancePlanModal = (props) => {
       setError(copyError);
     }
     else {
-      put(selectedDatas.id, sendData)
+      put(performanceData.id, sendData)
     }
   }
-
   //Send a put request to the API
   function put(id, sendData) {
     let url = "performance";
@@ -139,26 +181,81 @@ const PerformancePlanModal = (props) => {
       });
   }
 
+  function postData() {
+    let sendData = {};
+     let url = "performance";
+    for (const [key, value] of Object.entries(newSelectedData)) {
+      if (value !== "") {
+        sendData[key] = value;
+      sendData.employee_id = employeeId;
+      }
+    }
+    Api.postData(url, sendData)
+      .then((response) => {
+        console.log(response);
+        props.setMainMessage(`Update: ${response.status} ${response.statusText}`);
+        closeForm();
+      })
+      .catch((error) => {
+        console.log(error);
+         let copyError = {};
+        for(const [key, val] of Object.entries(error.response.data.errors)) {
+          copyError[key] = val.toString()
+        }
+        copyError.main = error.response.data.message.toString();
+        setError(copyError); 
+      });
+  }
+  const createNewForm = () => { 
+    setIsCreate(true);
+  }
+  const updatePerformance = () => {
+    setIsUpdate(true);
+  }
+  const displayPerformance = (id) => { 
+    setIsDisplay(true);
+    setSubUrl(`performance/${id}`)//send get request when click an individal plan
+  }
 
   return (
     <Modal isOpen={props.showPerformance} toggle={() => closeForm()}>
       <ModalHeader>{"Performance Plan  ----" + Humanize(employeeName)}</ModalHeader>
       <ModalBody>
-        <Button outline className="resetButton" onClick={() => clearForm()}>
-          Reset form
-        </Button>
-        {form()}
+        {!isUpdate && !isCreate ? 
+          <>
+            <Button outline className="createButton" onClick={() => createNewForm()}>Create a new</Button>
+            <br />
+            <br />
+            <ButtonToolbar aria-label="Toolbar with button groups">
+            <ButtonGroup  className="me-2" aria-label="First group">
+                {buttons()}
+            </ButtonGroup>
+            </ButtonToolbar> 
+            {isDisplay ? <>{performance_detail()} </>:null } 
+          </>
+         :
+          <>
+            <Button outline className="resetButton" onClick={() => clearForm()}>
+            Reset new input
+            </Button>
+            {form()}
+         </>   
+        }
         <p id="error_main" style={{ color: "red" }}>
           {error.main}
         </p>
       </ModalBody>
       <ModalFooter>  
-          <Button className="saveButton" id="save_button" onClick={() => prepareData()}>
-            Save Changes
-          </Button>
-        <Button className="cancelButton" id="cancel_button" onClick={() => closeForm()}>
-          Cancel
-        </Button>
+        {isDisplay ?
+          <>
+            {!isUpdate && !isCreate ? <Button className="updateButton" id="update_button" onClick={() => updatePerformance()}> Update </Button>: null}
+            {isUpdate && !isCreate ? <Button Button className="saveButton" id="save_button" onClick={() => prepareData()}>Save Changes</Button>:null }
+            {!isUpdate && isCreate ? <Button className="saveButton" id="save_button" onClick={() => postData()}>Save Form</Button> : null} 
+          </>
+          :null
+        }
+         { !isDisplay && isCreate  ? <Button className="saveButton" id="save_button" onClick={() => postData()}>Save Form</Button> :null}  
+        <Button className="cancelButton" id="cancel_button" onClick={() => closeForm()}> Cancel</Button>
       </ModalFooter>
     </Modal>
   );
