@@ -27,4 +27,5 @@ please follow a react style guide when developing in react for readability.
 
 # Depolyment 
 
-[production deployment](https://hr-masters.herokuapp.com)
+[production deployment](https://hr-masters.herokuapp.com)  
+[test deployment](https://hr-masters-frontend-test.herokuapp.com)
