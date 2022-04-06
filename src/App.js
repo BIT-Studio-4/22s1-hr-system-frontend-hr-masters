@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Route, BrowserRouter as Router } from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
 import Api from "./components/Api";
 import Tables from "./components/Tables";
@@ -8,6 +8,7 @@ import DeleteModal from "./components/Modal/DeleteModal";
 import UpdateModal from "./components/Modal/UpdateModal";
 import Navigation from "./components/Navigation";
 import Login from "./components/Login";
+import Department from "./components/Department";
 
 
 import './App.css';
@@ -72,9 +73,9 @@ const App = () => {
   //Fetches data when triggered
   useEffect(() => {
     if (location) {
-      fetchData();  
+      fetchData();
     }
-  },[location]);
+  }, [location]);
 
   //Fetches the data
   function fetchData() {
@@ -84,9 +85,9 @@ const App = () => {
         if (showPerformance) {
           setPerformanceData(response.data);
         }
-        else {  
+        else {
           setResponseData(response.data);
-         }    
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -137,38 +138,42 @@ const App = () => {
       />
       {loggedIn ? (
         <Router>
-          <Route path="/employees">
-            <section className="mainContent">
-              <p id="mainMessage">{mainMessage}</p>
-              {responseData ? (
-                <>
-                <section className="tableSection">
-                  <Tables
-                    data={responseData}
-                    update={(data, updateStatus) => handleShowForm("update", data, updateStatus)}
-                    delete={(data, deleteStatus) => handleDeleteStatus(data, deleteStatus)}
-                    //pass props to performancePlan
-                    performancePlan={(data, id_name, performanceStatus) => handlePerformanceForm(data, id_name,performanceStatus)}
-                  />
-                </section>
-                  <Button className="createButton" id="create_button" onClick={() => handleShowForm("create", selectedData, true)}>
-                  Create
-                </Button>
-                </>
-              ) : (
-                <h3>loading</h3>
-              )}
+          <Routes>
+            <Route
+              path="/employees"
+              element={
+                <section className="mainContent">
+                  <p id="mainMessage">{mainMessage}</p>
+                  {responseData ? (
+                    <>
+                      <section className="tableSection">
+                        <Tables
+                          data={responseData}
+                          update={(data, updateStatus) => handleShowForm("update", data, updateStatus)}
+                          delete={(data, deleteStatus) => handleDeleteStatus(data, deleteStatus)}
+                          //pass props to performancePlan
+                          performancePlan={(data, id_name, performanceStatus) => handlePerformanceForm(data, id_name, performanceStatus)}
+                        />
+                      </section>
+                      <Button className="createButton" id="create_button" onClick={() => handleShowForm("create", selectedData, true)}>
+                        Create
+                      </Button>
+                    </>
+                  ) : (
+                    <h3>loading</h3>
+                  )}
 
-            </section>
-          </Route>
+                </section>
+              }
+            />
+            <Route
+              path="/departments/*"
+              element={<Department />}
+            />
+          </Routes>
         </Router>
       ) : (
-        <Router>
-          <Route path="/login">
-            <Login
-              loggedIn={(status) => setLoggedIn(status)} />
-          </Route>
-        </Router>
+        <Login loggedIn={(status) => setLoggedIn(status)} />
       )}
       {showPerformance ? (
         <PerformancePlanModal

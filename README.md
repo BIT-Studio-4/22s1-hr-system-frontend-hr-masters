@@ -7,7 +7,7 @@ message in the discord server or message me directly.
 If you have any concerns with your given task please reach out and say so.  
 For general project guidance please refer to the [Agile Manifesto](https://www.agilealliance.org/agile101/12-principles-behind-the-agile-manifesto/)
 
-# git-stanards
+# git-standards
 
 - don't git push straight to master
 - define code owners for faster review
