@@ -1,4 +1,3 @@
-// import { Button } from "bootstrap";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Table, Button } from "reactstrap";
@@ -25,7 +24,7 @@ const DeptTable = (props) => {
 
     function goToRoute(data) {
         props.dataForRoute(data);
-        navigate(data.name);
+        navigate(data.name.toLowerCase());
     }
 
     return (
