@@ -68,11 +68,26 @@ const App = () => {
       }
     }
 
-  });
+  }, []);
 
   //Fetches data when triggered
   useEffect(() => {
     if (location) {
+      async function fetchData() {
+        let url = location.toLowerCase();
+        Api.getData(url)
+          .then((response) => {
+            if (location.startsWith("performance", 0)) {
+              setPerformanceData(response.data);
+            }
+            else {
+              setResponseData(response.data);
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
       fetchData();
     }
   }, [location]);

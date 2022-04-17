@@ -1,5 +1,5 @@
 import { React, useState } from 'react'
-import { Modal, Form, Button, ModalHeader, Table } from 'reactstrap'
+import { Modal, Button, ModalHeader, Table } from 'reactstrap'
 
 import Api from "../Api";
 
@@ -12,7 +12,7 @@ const FilesModal = (props) => {
 
   let button = <td><Button
     outline color="dark"
-    onClick={toggle}> <img src="https://cdn.discordapp.com/attachments/866914474140237857/907056264360640622/icons8-file-24.png" />
+    onClick={toggle}> <img alt="file icon" src="https://cdn.discordapp.com/attachments/866914474140237857/907056264360640622/icons8-file-24.png" />
   </Button></td>
 
 
