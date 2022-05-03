@@ -1,4 +1,3 @@
-// import { Button } from "bootstrap";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Table, Button } from "reactstrap";
@@ -25,7 +24,7 @@ const DeptTable = (props) => {
 
     function goToRoute(data) {
         props.dataForRoute(data);
-        navigate(data.name);
+        navigate(data.name.toLowerCase());
     }
 
     return (
@@ -35,7 +34,6 @@ const DeptTable = (props) => {
                 <Table hover bordered>
                     <thead>
                         <tr>
-                            <th>ID</th>
                             <th>Name</th>
                             <th>Location</th>
                         </tr>
@@ -44,7 +42,6 @@ const DeptTable = (props) => {
                         {deptData.map((data) => {
                             return (
                                 <tr key={"tr_" + data.id} >
-                                    <td>{data.id}</td>
                                     <td>{data.name}</td>
                                     <td>
                                         <Button onClick={() => goToRoute(data)}>

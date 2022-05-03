@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import DeptTable from "./DeptTable";
-
+import EmployeeDept from "./EmployeeDept"
 import { Route, Routes, Outlet } from "react-router-dom";
 
 const Department = () => {
@@ -14,6 +14,7 @@ const Department = () => {
         <div>
             <Routes>
                 <Route index element={<DeptTable dataForRoute={(data) => dataForRoute(data)} />} />
+                <Route path="/:deptname" element={<EmployeeDept deptData={deptData} />} />
             </Routes>
             <Outlet />
         </div>
