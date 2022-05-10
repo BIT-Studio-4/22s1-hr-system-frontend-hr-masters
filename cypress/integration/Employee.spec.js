@@ -10,6 +10,18 @@ it('login a user with email and password', () => {
 });
 
 
+it('Check employee table buttons', () => {
+    cy.get('[id^=update_Alano_Lehrer]').click(); // Find the id update_Alano_Lehrer then click it 
+    cy.wait(2500)
+    cy.get('[id^=cancel_button]').click();
+    cy.wait(2500)
+    cy.get('[id^=update_BigSky_Berdale]').click();
+    cy.wait(2500)
+    cy.get('[id^=cancel_button]').click();
+    cy.wait(2500)
+});
+
+
 it('Creating a new person', () => {
     cy.get('[id^=create_button]').click();
     cy.get('input[name="first_name"]').type('Bobbert'); // Looks for the input named first_name then types the name.
@@ -19,13 +31,6 @@ it('Creating a new person', () => {
     cy.get('[id^=save_button]').click();
     cy.wait(2500)
 });
-
-it('Check employee table buttons', () => {
-    cy.get('[id^=update_Builder_BobbertTheBuilder]').click(); // Find the id update_Builder_BobbertTheBuilder then click it 
-    cy.wait(2500)
-    cy.get('[id^=cancel_button]').click();
-});
-
 
 it('Check employee table buttons', () => {
     cy.get('[id^=delete_Builder_BobbertTheBuilder]').click();
