@@ -19,11 +19,17 @@ const Navigation = (props) => {
   return (
     <Navbar color="dark" dark expand="md">
       <NavbarBrand href="/employees" className="NavbarBrand">HR Management System</NavbarBrand>
-        <Nav className="parent" navbar>
+        <Nav navbar className='parent'>
           {props.loggedIn ? (
-          <NavItem >
-            <NavLink href="/login" className="logout" onClick={logout}>Logout</NavLink>
+          <>
+          <NavItem>
+            <NavLink className="departments" href="/departments">Departments
+            </NavLink>
           </NavItem>
+          <NavItem className="logout">
+            <NavLink href="/login" onClick={logout}>Logout</NavLink>
+          </NavItem>
+          </>
           ) : null }
         </Nav>
     </Navbar>

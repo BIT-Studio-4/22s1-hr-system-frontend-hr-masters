@@ -1,10 +1,18 @@
 .parent{
     display: flex;
     flex-direction: row;
-    justify-content:right;
+    justify-content: space-between;
     width: 95%;
 }
 
 .NavbarBrand{
     margin-left: 2em;
+}
+
+.departments{
+    font-size: large;
+}
+
+.logout{
+    font-size: large;
 }
