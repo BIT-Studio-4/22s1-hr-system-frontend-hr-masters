@@ -1,8 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
-  Collapse,
   Navbar,
-  Link,
   NavbarBrand,
   Nav,
   NavItem,
@@ -11,9 +9,6 @@ import {
 import "./css/Navigation.css"
 
 const Navigation = (props) => {
-  const [isOpen, setIsOpen] = useState(false)
-
-  const toggle = () => setIsOpen(!isOpen)
 
   const logout = () => {
     localStorage.clear();
@@ -24,7 +19,6 @@ const Navigation = (props) => {
   return (
     <Navbar color="dark" dark expand="md">
       <NavbarBrand href="/employees" className="NavbarBrand">HR Management System</NavbarBrand>
-      <Collapse isOpen={isOpen} navbar>
         <Nav className="parent" navbar>
           {props.loggedIn ? (
           <NavItem >
@@ -32,7 +26,6 @@ const Navigation = (props) => {
           </NavItem>
           ) : null }
         </Nav>
-      </Collapse>
     </Navbar>
   )
 }

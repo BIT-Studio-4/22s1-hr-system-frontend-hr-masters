@@ -1,8 +1,9 @@
 import React from "react";
 import { Button, Table } from "reactstrap";
 
-import NotesModal from "./Modal/NotesModal";
-import FilesModal from "./Modal/FilesModal"
+// Will use these once the features work
+// import NotesModal from "./Modal/NotesModal";
+// import FilesModal from "./Modal/FilesModal"
 
 const Tables = (props) => {
   const tableHeader = ["first_name", "last_name", "username", "email"];
@@ -28,7 +29,7 @@ const Tables = (props) => {
           id={"update_" + id_name}
           onClick={() => props.update(data, true)} 
         >
-          <img src="https://cdn.discordapp.com/attachments/866914474140237857/907053502851858452/icons8-update-24.png" />
+          <img alt="update button" src="https://cdn.discordapp.com/attachments/866914474140237857/907053502851858452/icons8-update-24.png" />
         </Button>
       </td>
     );
@@ -48,7 +49,7 @@ const Tables = (props) => {
           id={"delete_" + id_name}
           onClick={() => props.delete(data, true)}
         >
-            <img src="https://cdn.discordapp.com/attachments/866914474140237857/907053365219967067/icons8-delete-24.png"/>
+            <img alt="delete button" src="https://cdn.discordapp.com/attachments/866914474140237857/907053365219967067/icons8-delete-24.png"/>
         </Button>
       </td>
     );
@@ -68,7 +69,7 @@ const Tables = (props) => {
             id={"performance_" + id_name}
             onClick={() => props.performancePlan(data,id_name,true)} 
           >
-              <img src="https://cdn.discordapp.com/attachments/866914474140237857/907056265618944020/icons8-note-24.png"/>
+              <img alt="performance button" src="https://cdn.discordapp.com/attachments/866914474140237857/907056265618944020/icons8-note-24.png"/>
           </Button>
         </td>
       );
@@ -84,7 +85,8 @@ const Tables = (props) => {
             return <td key={header}>{humanize(header)}</td>;
           })}
           <td className="title" key="performance_plan">Performance Plan</td>
-{/*           <td className="title" key="notes_header">Notes</td>
+{/*       Will implement these back when the features work   
+          <td className="title" key="notes_header">Notes</td>
           <td className="title" key="file_header">Files</td> */}
           <td className="title" key="update_header">Update</td>
           <td className="title" key="delete_header">Delete</td>

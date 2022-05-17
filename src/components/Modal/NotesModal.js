@@ -11,7 +11,7 @@ const NotesModal = (props) => {
 
     let button = <td><Button
         outline color='dark'
-        onClick={toggle}><img src="https://cdn.discordapp.com/attachments/866914474140237857/907056265618944020/icons8-note-24.png"/>
+        onClick={toggle}><img alt="note icon" src="https://cdn.discordapp.com/attachments/866914474140237857/907056265618944020/icons8-note-24.png"/>
         </Button>
     </td>
 
