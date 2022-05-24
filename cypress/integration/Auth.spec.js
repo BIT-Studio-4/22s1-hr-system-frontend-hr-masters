@@ -1,5 +1,5 @@
 beforeEach(() => {
-    cy.visit('http://localhost:3000/login'); 
+    cy.visit('https://hr-masters-frontend-test.herokuapp.com/login'); 
 });
 
 
