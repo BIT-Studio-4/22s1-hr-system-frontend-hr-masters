@@ -1,7 +1,7 @@
 
 
 it('login a user with email and password', () => {
-    cy.visit('https://hr-masters-frontend-test.herokuapp.com/login'); 
+    cy.visit('http://localhost:3000/login'); 
     cy.get('input[name="email"]').type('test@email.com'); // Find the input with the name "email", then type a value
     cy.get('input[name="password"]').type('test'); // Find the input with the name "password", then type a value
 
@@ -11,15 +11,16 @@ it('login a user with email and password', () => {
 
 
 it('Creating a new person', () => {
-    cy.wait(2500);
+    cy.waitUntil(() => cy.get('.mainContent').contains('Employees'));
     cy.get('[id^=create_button]').click();
     cy.get('input[name="first_name"]').type('Bobbert');// Looks for the input named first_name then types the name. 
     cy.get('input[name="last_name"]').type('Builder');
     cy.get('input[name="username"]').type('BobbertTheBuilder');
     cy.get('input[name="email"]').type('bobbert@email.com');
     cy.get('[id^=save_button]').click();
-    cy.wait(2500);
+    cy.wait(1000);
     cy.reload();
+
 
     // using validation to make sure the correct text is in each section. 
     cy.get('.table').contains('Bobbert');
@@ -36,5 +37,5 @@ it('Check employee update button', () => {
 
 it('Check employee delete button', () => {
     cy.get('[id^=delete_Builder_BobbertTheBuilder]').click();
-    cy.get('[id^=delete_confirm]').click();   
+    cy.get('[id^=delete_confirm]').click();
 });
