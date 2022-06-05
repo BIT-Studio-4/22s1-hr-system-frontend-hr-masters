@@ -43,9 +43,11 @@ const PerformancePlanModal = (props) => {
   props.addLocation(subUrl);// add new sub url and pass it to APP.js to send a request
 
   const buttons = () => { //create buttons of plan depends on how many plans the employee has. 
-    return performance_plan.map((planId,index) => { 
-     return <Button key={planId.id} onClick={() => displayPerformance(planId.id)}>Plan {(index+1)}</Button>     
-   })
+    if (performance_plan !== undefined) {
+      return performance_plan.map((planId, index) => { 
+        return <Button key={planId.id} onClick={() => displayPerformance(planId.id)}>Plan {(index+1)}</Button>     
+      })
+     }
   }
 
   //Clears the form
