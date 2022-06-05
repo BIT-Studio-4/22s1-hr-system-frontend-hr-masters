@@ -1,76 +1,138 @@
-import { React, useState, useEffect } from 'react'
+import {
+    React,
+    useState,
+    useEffect
+} from 'react'
 import {
     Form,
     FormGroup,
     Button,
     Input,
-    Label
+    Label,
+    Spinner
 } from 'reactstrap'
 
 import Api from "../Api";
 
 const NoteForm = (props) => {
+    const defaultData = { employeeID: props.employeeID, notesTitle: "", notesDescription: "" };
+
     const [noteID, setNoteID] = useState("")
-    const [title, setTitle] = useState("")
-    const [body, setBody] = useState("")
+    const [data, setData] = useState(defaultData)
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         if (props.noteID !== "") {
+            setIsLoading(true);
             Api.getData('notes/' + props.noteID)
                 .then((response) => {
-                    setTitle(response.data.notesTitle);
-                    setBody(response.data.notesDescription);
+                    let tempData = { employeeID: props.employeeID, notesTitle: "", notesDescription: "" };
+                    tempData.notesTitle = response.data.notesTitle;
+                    tempData.notesDescription = response.data.notesDescription;
+                    setData(tempData);
                     setNoteID(props.noteID);
                     console.log(response);
+                    setIsLoading(false);
                 })
                 .catch((error) => {
                     console.log(error);
                 });
         }
-    }, [props.noteID])
+    }, [props.noteID, props.employeeID])
+
+    //Update the form field
+    const handleInputChange = (e) => {
+        const value = e.target.value;
+        const name = e.target.name;
+
+        let tempData = data;
+        tempData[name] = value;
+        console.log(data[name]);
+        console.log(tempData);
+        setData(tempData);
+    }
 
     const submit = () => {
+        let url = "notes";
+        setIsLoading(true);
+
         if (noteID !== "") {
-            //update note
+            url += "/" + props.noteID;
+            put(url);
+            return;
         }
-        else {
-            //create note
-        }
+
+        post(url);
+    }
+
+    const put = (url) => {
+        Api.putData(url, data)
+            .then((response) => {
+                console.log(response);
+                setData(defaultData);
+                setNoteID("");
+                props.setFetchTrigger(true);
+                setIsLoading(false);
+            })
+            .catch((error) => {
+                console.log(error);
+                setIsLoading(false);
+            });
+    }
+
+    const post = (url) => {
+        Api.postData(url, data)
+            .then((response) => {
+                console.log(response);
+                setData(defaultData);
+                props.setFetchTrigger(true);
+                setIsLoading(false);
+            })
+            .catch((error) => {
+                console.log(error.response.data);
+                setIsLoading(false);
+            });
     }
 
     return (
         <>
-            <Form>
-                <FormGroup>
-                    <Label for="title">
-                        Title
-                    </Label>
-                    <Input
-                        id="NoteTitle"
-                        name="title"
-                        type="text"
-                        value={title}
-                        placeholder={title}
-                    />
-                </FormGroup>
-                <br />
-                <FormGroup>
-                    <Label for="body">
-                        Body
-                    </Label>
-                    <Input
-                        id="noteBody"
-                        name="body"
-                        type="textarea"
-                        value={body}
-                        placeholder={body}
-                    />
-                </FormGroup>
-                <br />
-                <Button onClick={submit}>
-                    Submit
-                </Button>
-            </Form>
+            {isLoading ? (
+                <Spinner>
+                    &nbsp;
+                </Spinner>
+            ) : (
+                <Form>
+                    <FormGroup>
+                        <Label for="notesTitle">
+                            Title
+                        </Label>
+                        <Input
+                            id="notesTitle"
+                            name="notesTitle"
+                            type="text"
+                            defaultValue={data.notesTitle || ""}
+                            onChange={(e) => handleInputChange(e)}
+                        />
+                    </FormGroup>
+                    <br />
+                    <FormGroup>
+                        <Label for="notesDescription">
+                            Body
+                        </Label>
+                        <Input
+                            id="notesDescription"
+                            name="notesDescription"
+                            type="textarea"
+                            defaultValue={data.notesDescription || ""}
+                            onChange={(e) => handleInputChange(e)}
+                        />
+                    </FormGroup>
+                    <br />
+                    <Button onClick={submit}>
+                        Submit
+                    </Button>
+                </Form>
+            )}
             <hr />
         </>
     )

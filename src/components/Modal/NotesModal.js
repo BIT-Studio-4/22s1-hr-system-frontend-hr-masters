@@ -20,6 +20,18 @@ const NotesModal = (props) => {
     const [data, setData] = useState()
     const [fetchTrigger, setFetchTrigger] = useState(true)
     const [noteID, setNoteID] = useState("")
+    const [showConfirm, setShowConfirm] = useState(false)
+    const [deleteNoteData, setDeleteNoteData] = useState({})
+
+    const handleClickOpen = (e, note) => {
+        e.stopPropagation();
+        setDeleteNoteData(note);
+        setShowConfirm(true);
+    };
+
+    const handleClose = () => {
+        setShowConfirm(false);
+    };
 
     let button = <td><Button
         outline color='dark'
@@ -49,25 +61,43 @@ const NotesModal = (props) => {
         e.currentTarget.style.background = color;
     }
 
+    const deleteNote = (noteID) => {
+        let url = "notes/" + noteID;
+        Api.deleteData(url)
+            .then((response) => {
+                handleClose()
+                setFetchTrigger(true);
+            });
+    }
+
     const notes = () => {
         return (
             data.map((listValue, index) => {
                 return (
-                    <Card
-                        onClick={(id) => editNote(listValue.id)}
-                        key={listValue.id}
-                        id={"Card" + index}
-                        onMouseEnter={(e) => changeBackground(e, "grey")}
-                        onMouseLeave={(e) => changeBackground(e, "white")}
-                    >
-                        <CardBody>
-                            <CardTitle tag="h5">{listValue.notesTitle}</CardTitle>
-                            <CardText>
-                                {listValue.notesDescription}
-                            </CardText>
-                        </CardBody>
-                        <br />
-                    </Card>
+                    <>
+                        <Card
+                            key={listValue.id}
+                            id={"Card" + index}
+                        >
+                            <CardBody
+                                onClick={() => editNote(listValue.id)}
+                                onMouseEnter={(e) => changeBackground(e, "grey")}
+                                onMouseLeave={(e) => changeBackground(e, "white")}
+                            >
+                                <Button
+                                    style={{ marginLeft: "90%"}}
+                                    color="secondary"
+                                    onClick={(e) => {handleClickOpen(e, listValue)}}
+                                >
+                                    X
+                                </Button>
+                                <CardTitle tag="h5">{listValue.notesTitle}</CardTitle>
+                                <CardText>
+                                    {listValue.notesDescription}
+                                </CardText>
+                            </CardBody>
+                        </Card>
+                    </>
                 )
             })
         )
@@ -83,6 +113,8 @@ const NotesModal = (props) => {
                 <ModalBody>
                     <NoteForm
                         noteID={noteID}
+                        setFetchTrigger={setFetchTrigger}
+                        employeeID={props.id}
                     />
                     {isOpen && fetchTrigger ? (
                         get_data()
@@ -98,6 +130,29 @@ const NotesModal = (props) => {
                 <ModalFooter>
                     <Button color="dark" onClick={toggle}>Cancel</Button>
                 </ModalFooter>
+                {showConfirm ? (
+                    <Modal isOpen={showConfirm} toggle={() => handleClose()}>
+                        <ModalHeader>{`Delete ${deleteNoteData.notesTitle}`}</ModalHeader>
+                        <ModalBody>
+                            <div>{`Are you sure want to delete ${deleteNoteData.notesTitle} ?`}</div>
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button
+                                className="yesButton"
+                                id="delete_confirm"
+                                onClick={() => deleteNote(deleteNoteData.id)}
+                            >
+                                Yes
+                            </Button>
+                            <Button
+                                className="noButton"
+                                onClick={() => handleClose()}
+                            >
+                                No
+                            </Button>
+                        </ModalFooter>
+                    </Modal>
+                ) : null}
             </Modal>
         </>
     )
