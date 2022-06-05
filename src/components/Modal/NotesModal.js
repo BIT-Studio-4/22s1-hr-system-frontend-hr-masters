@@ -45,7 +45,6 @@ const NotesModal = (props) => {
             .then((response) => {
                 setFetchTrigger(false);
                 setData(response.data);
-                console.log(response);
             })
             .catch((error) => {
                 console.log(error);
@@ -53,7 +52,6 @@ const NotesModal = (props) => {
     }
 
     const editNote = (noteID) => {
-        console.log("edit:", noteID)
         setNoteID(noteID)
     }
 
@@ -85,9 +83,9 @@ const NotesModal = (props) => {
                                 onMouseLeave={(e) => changeBackground(e, "white")}
                             >
                                 <Button
-                                    style={{ marginLeft: "90%"}}
+                                    style={{ marginLeft: "90%" }}
                                     color="secondary"
-                                    onClick={(e) => {handleClickOpen(e, listValue)}}
+                                    onClick={(e) => { handleClickOpen(e, listValue) }}
                                 >
                                     X
                                 </Button>

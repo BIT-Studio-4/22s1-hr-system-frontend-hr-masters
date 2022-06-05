@@ -31,7 +31,6 @@ const NoteForm = (props) => {
                     tempData.notesDescription = response.data.notesDescription;
                     setData(tempData);
                     setNoteID(props.noteID);
-                    console.log(response);
                     setIsLoading(false);
                 })
                 .catch((error) => {
@@ -47,8 +46,6 @@ const NoteForm = (props) => {
 
         let tempData = data;
         tempData[name] = value;
-        console.log(data[name]);
-        console.log(tempData);
         setData(tempData);
     }
 
@@ -68,7 +65,6 @@ const NoteForm = (props) => {
     const put = (url) => {
         Api.putData(url, data)
             .then((response) => {
-                console.log(response);
                 setData(defaultData);
                 setNoteID("");
                 props.setFetchTrigger(true);
@@ -83,7 +79,6 @@ const NoteForm = (props) => {
     const post = (url) => {
         Api.postData(url, data)
             .then((response) => {
-                console.log(response);
                 setData(defaultData);
                 props.setFetchTrigger(true);
                 setIsLoading(false);
