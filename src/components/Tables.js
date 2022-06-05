@@ -80,7 +80,8 @@ const Tables = (props) => {
 
   //change url after select an specified employee
   const changeUrl = (id) => { 
-   props.addLocation(`employee/${id}`);
+    props.addLocation(`employee/${id}`);
+    props.SetShow(false);//to hide the create button on the page
   }
 
   const Render = Array.isArray(props.data) ?
