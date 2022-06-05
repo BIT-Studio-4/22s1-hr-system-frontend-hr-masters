@@ -164,6 +164,7 @@ const App = () => {
                       <section className="tableSection">
                         <Tables
                           data={responseData}
+                          addLocation={addLocation}//for an single employee
                           update={(data, updateStatus) => handleShowForm("update", data, updateStatus)}
                           delete={(data, deleteStatus) => handleDeleteStatus(data, deleteStatus)}
                           //pass props to performancePlan
