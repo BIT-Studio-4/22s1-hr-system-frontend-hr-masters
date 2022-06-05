@@ -9,8 +9,7 @@ import {
   ModalBody,
   ModalFooter,
   FormText,
-  ButtonToolbar,
-  ButtonGroup
+  Dropdown
 } from "reactstrap";
 import Humanize from "../Humanize";
 import Api from "../Api";
@@ -42,10 +41,11 @@ const PerformancePlanModal = (props) => {
 
   props.addLocation(subUrl);// add new sub url and pass it to APP.js to send a request
 
-  const buttons = () => { //create buttons of plan depends on how many plans the employee has. 
+
+  const Dropdowns = ()=> { 
     if (performance_plan !== undefined) {
       return performance_plan.map((planId, index) => { 
-        return <Button key={planId.id} onClick={() => displayPerformance(planId.id)}>Plan {(index+1)}</Button>     
+        return <Dropdown.Item key={planId.id} onClick={() => displayPerformance(planId.id)}>Plan {(index+1)}</Dropdown.Item>  
       })
      }
   }
@@ -228,11 +228,14 @@ const PerformancePlanModal = (props) => {
             <Button outline className="createButton" onClick={() => createNewForm()}>Create a new</Button>
             <br />
             <br />
-            <ButtonToolbar aria-label="Toolbar with button groups">
-            <ButtonGroup  className="me-2" aria-label="First group">
-                {buttons()}
-            </ButtonGroup>
-            </ButtonToolbar> 
+            <Dropdown>
+              {performance_plan.length>0 && <Dropdown.Toggle variant="success" id="dropdown-basic">
+                Plan List
+              </Dropdown.Toggle>}
+              <Dropdown.Menu>
+              {Dropdowns()}
+            </Dropdown.Menu>
+            </Dropdown>
             {isDisplay ? <>{performance_detail()} </>:null } 
           </>
          :
