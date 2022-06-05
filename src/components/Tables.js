@@ -1,10 +1,10 @@
 import React from "react";
 import { Button, Table } from "reactstrap";
-import { useState} from "react";
+
 
 // Will use these once the features work
  import NotesModal from "./Modal/NotesModal";
-import FilesModal from "./Modal/FilesModal"
+
 
 const Tables = (props) => {
 
@@ -121,7 +121,6 @@ const Tables = (props) => {
             })}
               {<td className ="title" key = "performance_plan" > Performance Plan</td >}
               {<td className="title" key = "notes_header">Notes</td>}
-              {<td className="title" key = "file_header">Files</td>}
               {<td className="title" key = "update_header">Update</td>}
               {<td className="title" ke y= "delete_header">Delete</td>}
             </tr>
@@ -134,7 +133,6 @@ const Tables = (props) => {
           <td>{props.data.email}</td>
             { performanceButton(props.data)}
             {<NotesModal id={props.data.id} />}
-            {<FilesModal id={props.data.id} />}
             {updateButton(props.data)}
             {deleteButton(props.data)}
           </tr>
