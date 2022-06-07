@@ -99,11 +99,11 @@ const Tables = (props) => {
     <tbody>
       {props.data.map((data) => {
         return (
-          <tr key={data.id}>
-            <td><button className="btn info" onClick={() => changeUrl(data.id)} >{data.first_name}</button></td>
-            <td><button className="btn info" onClick={() => changeUrl(data.id)} >{data.last_name}</button></td>   
-            <td><button className="btn info" onClick={() => changeUrl(data.id)} >{data.username}</button></td>
-            <td><button className="btn info" onClick={() => changeUrl(data.id)} >{data.email}</button></td>    
+          <tr onClick={() => changeUrl(data.id)} key={data.id} id={data.first_name + data.last_name}>
+            <td> {data.first_name}</td>
+            <td> {data.last_name}</td>   
+            <td>{data.username}</td>
+            <td>{data.email}</td>    
           </tr>
         );
       })}
@@ -122,7 +122,7 @@ const Tables = (props) => {
               {<td className ="title" key = "performance_plan" > Performance Plan</td >}
               {<td className="title" key = "notes_header">Notes</td>}
               {<td className="title" key = "update_header">Update</td>}
-              {<td className="title" ke y= "delete_header">Delete</td>}
+              {<td className="title" key= "delete_header">Delete</td>}
             </tr>
         </thead>
         <tbody>

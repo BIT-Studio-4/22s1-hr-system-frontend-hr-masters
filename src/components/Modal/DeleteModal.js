@@ -23,6 +23,7 @@ const DeleteModal = (props) => {
         </Button>
         <Button
           className="noButton"
+          id="delete_deny"
           onClick={() => props.delete(false)}
         >
           No

@@ -19,6 +19,7 @@ it('Creating a new person', () => {
 });
 
 it('Creating new performance plans', () => {
+    cy.get('[id^=BobbertBuilder]').click();
     cy.get('[id^=performance_Bobbert_Builder]').click(); 
     cy.waitUntil(() => cy.get('.modal-title').contains('Plan'));
     cy.get('.createButton.btn.btn-outline-secondary').click();
