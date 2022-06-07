@@ -8,9 +8,9 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  FormText,
-  Dropdown
+  FormText
 } from "reactstrap";
+import { Dropdown } from 'react-bootstrap';
 import Humanize from "../Humanize";
 import Api from "../Api";
 import "../css/PerformancePlanModal.css";
@@ -142,7 +142,7 @@ const PerformancePlanModal = (props) => {
   function closeForm() { 
     props.setShowPerformance(false);
     setError({});
-    props.addLocation('employee');
+    props.addLocation(`employee/${employeeId}`);//close form will still stay that page
   }
 
   //setup the data and checks if anything has changed
@@ -229,7 +229,7 @@ const PerformancePlanModal = (props) => {
             <br />
             <br />
             <Dropdown>
-              {performance_plan.length>0 && <Dropdown.Toggle variant="success" id="dropdown-basic">
+              {performance_plan.length > 0 && <Dropdown.Toggle variant="success" id="dropdown-basic">
                 Plan List
               </Dropdown.Toggle>}
               <Dropdown.Menu>

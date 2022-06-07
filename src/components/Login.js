@@ -97,8 +97,8 @@ function Login(props) {
     }
     setErrorMessage(errors);
   };
-  const BASE_URL = 'https://laravel-testdeploy.herokuapp.com'
-/*   const BASE_URL = 'http://127.0.0.1:8000' */
+
+  const BASE_URL = 'https://hr-masters-backend-test.herokuapp.com'
   //sends login data to the server.
   function login() {
     let loginData = loginInput;
