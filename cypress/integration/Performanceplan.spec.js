@@ -34,13 +34,12 @@ it('Creating new performance plans', () => {
     cy.get('textarea[name="goal_statement"]').type('This will work');
     cy.get('[id^=save_button]').click();
     cy.wait(1000)
-    cy.reload();
-
 });
 
 it('updating the made performance plan', () => {
     cy.get('[id^=performance_Bobbert_Builder]').click(); 
-    cy.get('.btn-toolbar').click(0, 0); 
+    cy.get('[id^=dropdown-basic]').click();
+    cy.get('[id^=0]').click();
     cy.get('[id^=update_button]').click();
     cy.waitUntil(() => cy.get('.resetButton').contains('Reset'));
     cy.get('textarea[name="title"]').type('This is a real title');
@@ -49,7 +48,7 @@ it('updating the made performance plan', () => {
 });
 
 it('Deleting the new person made', () => {
-    cy.waitUntil(() => cy.get('.mainContent').contains('Employees'));
+    cy.waitUntil(() => cy.get('.mainContent').contains('Employee'));
     cy.get('[id^=delete_Builder_BobbertTheBuilder]').click();
     cy.get('[id^=delete_confirm]').click(); 
 });

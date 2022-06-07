@@ -45,7 +45,7 @@ const PerformancePlanModal = (props) => {
   const Dropdowns = ()=> { 
     if (performance_plan !== undefined) {
       return performance_plan.map((planId, index) => { 
-        return <Dropdown.Item key={planId.id} onClick={() => displayPerformance(planId.id)}>Plan {(index+1)}</Dropdown.Item>  
+        return <Dropdown.Item key={planId.id} id={index} onClick={() => displayPerformance(planId.id)}>Plan {(index+1)}</Dropdown.Item>  
       })
      }
   }
