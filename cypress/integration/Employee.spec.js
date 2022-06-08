@@ -57,6 +57,7 @@ it('Check employee delete deny', () => {
 });
 
 it('Check employee delete button', () => {
+    cy.get('[id^=BillBuilder]').click();
     cy.get('[id^=delete_Builder_BobbertTheBuilder]').click();
     cy.get('[id^=delete_confirm]').click();
     cy.get('[id^=mainMessage]').contains('Delete "Bill Builder": OK');
