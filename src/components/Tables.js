@@ -1,11 +1,13 @@
 import React from "react";
 import { Button, Table } from "reactstrap";
 
+
 // Will use these once the features work
-// import NotesModal from "./Modal/NotesModal";
-// import FilesModal from "./Modal/FilesModal"
+ import NotesModal from "./Modal/NotesModal";
+
 
 const Tables = (props) => {
+
   const tableHeader = ["first_name", "last_name", "username", "email"];
   //converts the string to be read by humans
   function humanize(str) {
@@ -34,6 +36,7 @@ const Tables = (props) => {
       </td>
     );
   };
+
 
   //create the delete button
   const deleteButton = (data) => {
@@ -74,53 +77,73 @@ const Tables = (props) => {
         </td>
       );
   };
-  
-  return (
-    <>
-    <h2>Employees</h2>
-    <Table hover bordered>
-      <thead>
-        <tr className="title" key="tableHeader">
-          {tableHeader.map((header) => {
-            return <td key={header}>{humanize(header)}</td>;
-          })}
-          <td className="title" key="performance_plan">Performance Plan</td>
-{/*       Will implement these back when the features work   
-          <td className="title" key="notes_header">Notes</td>
-          <td className="title" key="file_header">Files</td> */}
-          <td className="title" key="update_header">Update</td>
-          <td className="title" key="delete_header">Delete</td>
 
-        </tr>
-      </thead>
-      <tbody>
-        {props.data.map((data) => {
-          let tableValues = tableHeader.map((value) => {
-            return (
-              <td
-                key={value + data[value] + data.id}
-              >
-                {data[value]}
-              </td>
-            );
-          });
-          return (
-            <tr key={data[tableHeader[0]] + data.id}>
-              {tableValues}
-              {performanceButton(data)}
-              {/*               <NotesModal
-              id={data.id} />
-              <FilesModal 
-                id={data.id} /> */}
-              {updateButton(data)}
-              {deleteButton(data)}
-            </tr>
-          );
+  //change url after select an specified employee
+  const changeUrl = (id) => { 
+    props.addLocation(`employee/${id}`);
+    props.SetShow(false);//to hide the create button on the page
+  }
+
+  const Render = Array.isArray(props.data) ?
+ (
+  <>
+  <h2>Employees</h2>
+  <Table hover bordered>
+    <thead>
+      <tr className="title" key="tableHeader">
+        {tableHeader.map((header) => {
+          return <td key={header}>{humanize(header)}</td>;
         })}
-      </tbody>
-    </Table>
-    </>
-  );
-};
+        </tr>
+    </thead>
+    <tbody>
+      {props.data.map((data) => {
+        return (
+          <tr onClick={() => changeUrl(data.id)} key={data.id} id={data.first_name + data.last_name}>
+            <td> {data.first_name}</td>
+            <td> {data.last_name}</td>   
+            <td>{data.username}</td>
+            <td>{data.email}</td>    
+          </tr>
+        );
+      })}
+    </tbody>
+  </Table>
+  </>
+ ): (
+  <>
+      <h2>The Employee</h2>
+      <Table hover bordered>
+        <thead>
+          <tr className="title" key="tableHeader">
+            {tableHeader.map((header) => {
+              return <td key={header}>{humanize(header)}</td>;
+            })}
+              {<td className ="title" key = "performance_plan" > Performance Plan</td >}
+              {<td className="title" key = "notes_header">Notes</td>}
+              {<td className="title" key = "update_header">Update</td>}
+              {<td className="title" key= "delete_header">Delete</td>}
+            </tr>
+        </thead>
+        <tbody>
+          <tr key={props.data[tableHeader[0]] + props.data.id}>
+          <td>{props.data.first_name}</td>
+          <td>{props.data.last_name}</td>
+          <td>{props.data.username}</td>
+          <td>{props.data.email}</td>
+            { performanceButton(props.data)}
+            {<NotesModal id={props.data.id} />}
+            {updateButton(props.data)}
+            {deleteButton(props.data)}
+          </tr>
+          </tbody>
+        </Table>{/*  go back function just refresh the page */}
+        <Button color='success' style={{ marginTop: '20px' }} onClick={() => window.location.reload(false)} >
+            Go Back
+          </Button>  
+      </>
+    )
+  return Render;
+}
 
 export default Tables;

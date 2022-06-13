@@ -10,6 +10,10 @@ const Api = {
       url: location,
       params: {        
       },
+      headers: {
+        "content-type": "application/json", // override instance defaults
+        Authorization: `Bearer ${sessionStorage.getItem('auth_token')}`,
+      },
     }),
   postData: (location, sendData) =>
     instance({
@@ -20,6 +24,7 @@ const Api = {
       data: sendData,
       headers: {
         "content-type": "application/json", // override instance defaults
+        Authorization: `Bearer ${sessionStorage.getItem('auth_token')}`,
       },
     }),
   putData: (location, sendData) =>
@@ -31,6 +36,7 @@ const Api = {
       data: sendData,
       headers: {
         "content-type": "application/json", // override instance defaults
+        Authorization: `Bearer ${sessionStorage.getItem('auth_token')}`,
       },
     }),
   deleteData: (location) =>
@@ -38,6 +44,10 @@ const Api = {
       method: "DELETE",
       url: location,
       params: {
+      },
+      headers: {
+        "content-type": "application/json", // override instance defaults
+        Authorization: `Bearer ${sessionStorage.getItem('auth_token')}`,
       },
     }),
 };

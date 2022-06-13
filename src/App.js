@@ -28,6 +28,7 @@ const App = () => {
   const [performanceData, setPerformanceData] = useState("");//stores the data of performancePlan
   const [employeeNamePerformance, SetEmployeeNamePerformance] = useState("");//stores the name or employee of performancePlan
   const [employeeData, SetEmployeeData] = useState();//a single employee
+  const [show, SetShow] = useState(true);//create button
   const tableHeaders = {
     employee: [
       "first_name",
@@ -164,15 +165,17 @@ const App = () => {
                       <section className="tableSection">
                         <Tables
                           data={responseData}
+                          addLocation={addLocation}//for an single employee
+                          SetShow={SetShow}//for create button
                           update={(data, updateStatus) => handleShowForm("update", data, updateStatus)}
                           delete={(data, deleteStatus) => handleDeleteStatus(data, deleteStatus)}
                           //pass props to performancePlan
                           performancePlan={(data, id_name, performanceStatus) => handlePerformanceForm(data, id_name, performanceStatus)}
                         />
                       </section>
-                      <Button className="createButton" id="create_button" onClick={() => handleShowForm("create", selectedData, true)}>
+                     {show && <Button className="createButton" id="create_button" onClick={() => handleShowForm("create", selectedData, true)}>
                         Create
-                      </Button>
+                      </Button>} 
                     </>
                   ) : (
                     <h3>loading</h3>

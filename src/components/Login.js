@@ -98,14 +98,15 @@ function Login(props) {
     setErrorMessage(errors);
   };
 
+  const BASE_URL = 'https://hr-masters-backend-test.herokuapp.com'
   //sends login data to the server.
   function login() {
     let loginData = loginInput;
     axios
-      .get("https://laravel-testdeploy.herokuapp.com/sanctum/csrf-cookie")
+      .get(`${BASE_URL}/sanctum/csrf-cookie`)
       .then((response) => {
         axios
-          .post("https://laravel-testdeploy.herokuapp.com/api/login", loginData)
+          .post(`${BASE_URL}/api/login`, loginData)
           .then((response) => {
             console.log(response);
             props.loggedIn(true);

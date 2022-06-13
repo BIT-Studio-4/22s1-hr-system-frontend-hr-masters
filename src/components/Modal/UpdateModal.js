@@ -107,14 +107,13 @@ const FormModal = (props) => {
       setError(copyError);
     }
     else {
-      put(selectedDatas.id, sendData)
+      put(sendData)
     }
   }
 
   //Send a put request to the API
-  function put(id, sendData) {
+  function put(sendData) {
     let url = props.location.toLowerCase();
-    url += "/" + id;
 
     Api.putData(url, sendData)
       .then((response) => {

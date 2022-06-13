@@ -8,10 +8,9 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  FormText,
-  ButtonToolbar,
-  ButtonGroup
+  FormText
 } from "reactstrap";
+import { Dropdown } from 'react-bootstrap';
 import Humanize from "../Humanize";
 import Api from "../Api";
 import "../css/PerformancePlanModal.css";
@@ -42,10 +41,13 @@ const PerformancePlanModal = (props) => {
 
   props.addLocation(subUrl);// add new sub url and pass it to APP.js to send a request
 
-  const buttons = () => { //create buttons of plan depends on how many plans the employee has. 
-    return performance_plan.map((planId,index) => { 
-     return <Button key={planId.id} onClick={() => displayPerformance(planId.id)}>Plan {(index+1)}</Button>     
-   })
+
+  const Dropdowns = ()=> { 
+    if (performance_plan !== undefined) {
+      return performance_plan.map((planId, index) => { 
+        return <Dropdown.Item key={planId.id} id={index} onClick={() => displayPerformance(planId.id)}>Plan {(index+1)}</Dropdown.Item>  
+      })
+     }
   }
 
   //Clears the form
@@ -140,7 +142,7 @@ const PerformancePlanModal = (props) => {
   function closeForm() { 
     props.setShowPerformance(false);
     setError({});
-    props.addLocation('employee');
+    props.addLocation(`employee/${employeeId}`);//close form will still stay that page
   }
 
   //setup the data and checks if anything has changed
@@ -226,11 +228,14 @@ const PerformancePlanModal = (props) => {
             <Button outline className="createButton" onClick={() => createNewForm()}>Create a new</Button>
             <br />
             <br />
-            <ButtonToolbar aria-label="Toolbar with button groups">
-            <ButtonGroup  className="me-2" aria-label="First group">
-                {buttons()}
-            </ButtonGroup>
-            </ButtonToolbar> 
+            <Dropdown>
+              {performance_plan.length > 0 && <Dropdown.Toggle variant="success" id="dropdown-basic">
+                Plan List
+              </Dropdown.Toggle>}
+              <Dropdown.Menu>
+              {Dropdowns()}
+            </Dropdown.Menu>
+            </Dropdown>
             {isDisplay ? <>{performance_detail()} </>:null } 
           </>
          :
